@@ -94,9 +94,15 @@ export default function HeroDemo() {
       transition={{ duration: 0.8, delay: 0.4 }}
       className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-border bg-bg-raised"
     >
-      <div className="w-full aspect-[16/10] bg-linear-to-b from-[#1a1a2e] via-[#0f0f17] to-[#0a0a0f] relative overflow-hidden">
-        {/* Desktop wallpaper subtle gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.03)_0%,transparent_60%)]" />
+      <div className="w-full aspect-[16/10] relative overflow-hidden">
+        {/* Desktop wallpaper */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/screenshots/wall.jpeg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
 
         {/* macOS Menu bar */}
         <div className="absolute top-0 inset-x-0 h-7 bg-black/40 backdrop-blur-xl flex items-center px-4 z-10">
