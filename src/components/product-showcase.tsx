@@ -38,7 +38,7 @@ export default function ProductShowcase() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="block text-[13px] font-semibold text-accent uppercase tracking-widest mb-4"
+          className="block text-[13px] font-semibold text-muted uppercase tracking-widest mb-4"
         >
           Product
         </motion.span>
@@ -65,7 +65,7 @@ export default function ProductShowcase() {
             >
               {/* Content */}
               <div className="flex-1 space-y-4">
-                <span className="inline-block px-3 py-1 bg-accent-soft border border-accent/15 rounded-full text-[13px] font-medium text-accent">
+                <span className="inline-block px-3 py-1 bg-bg-card border border-border rounded-full text-[13px] font-medium text-muted">
                   {item.tag}
                 </span>
                 <h3 className="text-3xl md:text-4xl font-bold tracking-tight">

@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <section className="relative pt-44 pb-28 text-center overflow-hidden">
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,var(--color-accent-glow)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
 
       <div className="relative max-w-[1120px] mx-auto px-6">
         {/* Badge */}
@@ -20,9 +20,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-accent-soft border border-accent/15 rounded-full text-[13px] font-medium text-[#b4a7f5]"
+          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-bg-card border border-border rounded-full text-[13px] font-medium text-muted"
         >
-          <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+          <span className="w-1.5 h-1.5 bg-foreground rounded-full animate-pulse" />
           Journal • Notes • Dictation — All-in-one
         </motion.div>
 
@@ -90,7 +90,7 @@ export default function Hero() {
             {/* Content */}
             <div className="flex flex-col items-center gap-6 pt-20 pb-16 px-10">
               {/* Pill */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 border border-accent/25 rounded-full text-[13px] text-[#b4a7f5]">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-bg-card border border-border rounded-full text-[13px] text-muted">
                 <span className="relative w-2.5 h-2.5 bg-red-500 rounded-full">
                   <span className="absolute -inset-1 border-2 border-red-500 rounded-full animate-ping" />
                 </span>
@@ -102,7 +102,7 @@ export default function Hero() {
                 {bars.map((b, i) => (
                   <div
                     key={i}
-                    className="w-1 rounded-full bg-accent"
+                    className="w-1 rounded-full bg-foreground"
                     style={{
                       height: `${b.h}px`,
                       animation: `wave 1.2s ease-in-out ${b.delay}s infinite`,
@@ -112,14 +112,14 @@ export default function Hero() {
               </div>
 
               {/* Typed text */}
-              <p className="text-xl sm:text-[22px] font-medium text-foreground overflow-hidden whitespace-nowrap border-r-2 border-accent animate-[typing_3.5s_steps(50)_infinite]">
+              <p className="text-xl sm:text-[22px] font-medium text-foreground overflow-hidden whitespace-nowrap border-r-2 border-foreground animate-[typing_3.5s_steps(50)_infinite]">
                 Hey team, let&apos;s sync on the project timeline tomorrow
               </p>
             </div>
           </div>
 
           {/* Bottom glow bar */}
-          <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-2/5 h-1 bg-gradient-to-r from-transparent via-accent to-transparent rounded-full blur-sm" />
+          <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-2/5 h-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent rounded-full blur-sm" />
         </motion.div>
       </div>
 
