@@ -9,9 +9,9 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "https://x.com/orbitvoiceapp", label: "Twitter" },
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+    { icon: Twitter, href: "https://x.com/sajdakabir", label: "Twitter" },
+    { icon: Github, href: "https://github.com/sajdakabir/orbit", label: "GitHub" },
+    // { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
   ];
 
   return (
