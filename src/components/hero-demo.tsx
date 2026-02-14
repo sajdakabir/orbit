@@ -142,8 +142,9 @@ export default function HeroDemo() {
           {/* Dia content - centered layout */}
           <div className="flex flex-col items-center justify-center h-[calc(100%-40px)] px-8">
             {/* Dia logo */}
-            <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center mb-8">
-              <div className="w-5 h-5 rounded-full bg-dim/40" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden mb-8">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icon/dia.png" alt="Dia" className="w-full h-full object-cover" />
             </div>
 
             {/* Search input */}
