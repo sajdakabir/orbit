@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
+import SpacesShowcase from "@/components/spaces-showcase";
 import Logos from "@/components/logos";
 import HowItWorks from "@/components/how-it-works";
 import Features from "@/components/features";
@@ -15,6 +16,7 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <SpacesShowcase />
       {/* <Logos /> */}
       {/* <Features /> */}
       {/* <ProductShowcase /> */}
