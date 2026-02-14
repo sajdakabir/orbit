@@ -15,10 +15,10 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative py-24 overflow-hidden">
+    <footer className="relative py-32 overflow-hidden">
       {/* Large background text */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-        <h2 className="text-[200px] md:text-[280px] font-black text-muted/[0.03] tracking-tighter leading-none whitespace-nowrap">
+        <h2 className="text-[220px] md:text-[320px] lg:text-[420px] font-black text-foreground/[0.02] tracking-tighter leading-none whitespace-nowrap">
           Orbit
         </h2>
       </div>
