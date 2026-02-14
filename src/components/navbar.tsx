@@ -49,7 +49,8 @@ export default function Navbar() {
 
         {/* CTA */}
         <a
-          href="#download"
+          href="/Orbit-local-Installer.dmg"
+          download
           className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-bg text-sm font-semibold rounded-full hover:opacity-90 hover:-translate-y-px transition-all"
         >
           Download

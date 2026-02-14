@@ -37,7 +37,8 @@ export default function Cta() {
           className="flex flex-col sm:flex-row justify-center gap-4"
         >
           <a
-            href="#"
+            href="/Orbit-local-Installer.dmg"
+            download
             className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-bg text-[15px] font-semibold rounded-full hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] transition-all"
           >
             <Apple className="w-[18px] h-[18px]" />
