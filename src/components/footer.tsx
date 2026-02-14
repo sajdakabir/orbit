@@ -15,16 +15,26 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative py-32 overflow-hidden">
-      {/* Large background text */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-        <h2 className="text-[220px] md:text-[320px] lg:text-[420px] font-black text-foreground/[0.02] tracking-tighter leading-none whitespace-nowrap">
+    <footer className="relative overflow-hidden py-40">
+      {/* Large background text - centered behind content */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <h2
+          className="text-[220px] md:text-[320px] lg:text-[420px] font-black tracking-tighter leading-none whitespace-nowrap"
+          style={{
+            color: "transparent",
+            WebkitTextStroke: "1.5px rgba(255,255,255,0.04)",
+            background:
+              "linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.01))",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+          }}
+        >
           Orbit
         </h2>
       </div>
 
-      {/* Content */}
-      <div className="relative max-w-[1120px] mx-auto px-6 flex flex-col items-center gap-12">
+      {/* Content - positioned in bottom half */}
+      <div className="relative max-w-[1120px] mx-auto px-6 flex flex-col items-center gap-10 mt-32">
         {/* Navigation links */}
         <nav>
           <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4">
