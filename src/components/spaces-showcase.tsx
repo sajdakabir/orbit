@@ -10,8 +10,8 @@ export default function SpacesShowcase() {
     { name: "Today", image: "/screenshots/today.png" },
     { name: "Notes", image: "/screenshots/notes.png" },
     { name: "Dictionary", image: "/screenshots/dictionary.png" },
-    { name: "Project tracking", image: "/screenshots/project-tracking.png" },
-    { name: "Your space", image: "/screenshots/your-space.png" },
+    { name: "Home", image: "/screenshots/home.png" },
+    { name: "Make your recipe", image: "/screenshots/library.png" },
   ];
 
   return (
