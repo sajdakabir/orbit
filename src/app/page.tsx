@@ -3,6 +3,7 @@ import Hero from "@/components/hero";
 import Logos from "@/components/logos";
 import HowItWorks from "@/components/how-it-works";
 import Features from "@/components/features";
+import ProductShowcase from "@/components/product-showcase";
 import Integrations from "@/components/integrations";
 import Bento from "@/components/bento";
 import Faq from "@/components/faq";
@@ -15,8 +16,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Logos />
-      <HowItWorks />
       <Features />
+      <ProductShowcase />
+      <HowItWorks />
       <Integrations />
       <Bento />
       <Faq />

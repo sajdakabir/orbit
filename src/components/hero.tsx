@@ -23,7 +23,7 @@ export default function Hero() {
           className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-accent-soft border border-accent/15 rounded-full text-[13px] font-medium text-[#b4a7f5]"
         >
           <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-          Now available on macOS
+          Journal • Notes • Dictation — All-in-one
         </motion.div>
 
         {/* Headline */}
@@ -33,9 +33,9 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-[80px] font-extrabold tracking-[-0.035em] leading-[1.05] mb-6 bg-gradient-to-b from-foreground via-foreground to-dim bg-clip-text text-transparent"
         >
-          Your voice is the
+          Your productivity suite,
           <br />
-          new keyboard
+          powered by voice
         </motion.h1>
 
         {/* Subtitle */}
@@ -45,8 +45,8 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg text-muted max-w-[540px] mx-auto mb-12 leading-relaxed"
         >
-          Orbit turns your speech into perfect text, anywhere on your computer.
-          Just press a hotkey and speak naturally.
+          Journal, take notes, and dictate in any app—all powered by your voice.
+          One workspace to replace multiple apps.
         </motion.p>
 
         {/* Actions */}
