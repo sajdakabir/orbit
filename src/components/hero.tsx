@@ -33,7 +33,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-[80px] font-extrabold tracking-[-0.035em] leading-[1.05] mb-6 bg-gradient-to-b from-foreground via-foreground to-dim bg-clip-text text-transparent"
         >
-          Your productivity suite,
+          Your second brain,
           <br />
           powered by voice
         </motion.h1>
@@ -56,13 +56,13 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
-          <a
+          {/* <a
             href="#download"
             className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-bg text-[15px] font-semibold rounded-full hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] transition-all"
           >
             <Apple className="w-[18px] h-[18px]" />
             Download for Mac
-          </a>
+          </a> */}
           <a
             href="#how-it-works"
             className="inline-flex items-center gap-2.5 px-7 py-3.5 text-muted text-[15px] font-medium border border-border rounded-full hover:text-foreground hover:border-dim transition-all"
