@@ -10,9 +10,9 @@
   --color-foreground: #f5f5f7;
   --color-muted: #a1a1aa;
   --color-dim: #71717a;
-  --color-accent: #7c6aef;
-  --color-accent-soft: rgba(124, 106, 239, 0.12);
-  --color-accent-glow: rgba(124, 106, 239, 0.25);
+  --color-accent: #f5f5f7;
+  --color-accent-soft: rgba(245, 245, 247, 0.08);
+  --color-accent-glow: rgba(245, 245, 247, 0.15);
   --font-sans: var(--font-inter);
 }
 
@@ -29,8 +29,8 @@ body {
 }
 
 ::selection {
-  background: rgba(124, 106, 239, 0.35);
-  color: #fff;
+  background: rgba(245, 245, 247, 0.2);
+  color: #0a0a0a;
 }
 
 ::-webkit-scrollbar { width: 6px; }
