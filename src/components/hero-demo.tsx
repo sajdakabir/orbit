@@ -13,23 +13,45 @@ const PHASE_TIMINGS = {
 
 // macOS dock app icons using real images
 const dockApps = [
-  { name: "Finder", image: "/icon/finder.png" },
-  { name: "Safari", image: "/icon/safari2.png" },
-  { name: "Terminal", image: "/icon/Terminali.png" },
-  { name: "Superhuman", image: "/icon/superhuman.avif" },
-  { name: "Dia", image: "/icon/dia.png" },
+  { name: "Finder", image: "/icon/finder.png", isOpen: false },
+  { name: "Safari", image: "/icon/safari2.png", isOpen: false },
+  { name: "Terminal", image: "/icon/Terminali.png", isOpen: true },
+  { name: "Orbit", image: "/orbit.png", isOpen: true },
+  { name: "Superhuman", image: "/icon/superhuman.avif", isOpen: true },
+  { name: "Dia", image: "/icon/dia.png", isOpen: true },
 ];
 
 // Apps after dock divider
 const dockAppsRight = [
-  { name: "VS Code", image: "/icon/vscode.png" },
-  { name: "Bin", image: "/icon/bin.png" },
+  { name: "VS Code", image: "/icon/vscode.png", isOpen: true },
+  { name: "Bin", image: "/icon/bin.png", isOpen: false },
 ];
 
-function DockIcon({ app }: { app: { name: string; image: string } }) {
+function DockIcon({ app }: { app: { name: string; image: string; isOpen: boolean } }) {
   const isBin = app.name === "Bin";
+  const [hovered, setHovered] = useState(false);
   return (
-    <div className="relative flex flex-col items-center">
+    <div
+      className="relative flex flex-col items-center group"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Tooltip */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#2a2a2c] border border-white/10 rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
+          >
+            <span className="text-[11px] text-white font-medium">{app.name}</span>
+            {/* Tooltip arrow */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#2a2a2c]" />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className={`w-11 h-11 sm:w-12 sm:h-12 ${isBin ? "" : "rounded-xl"} overflow-hidden ${isBin ? "" : "shadow-lg"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -38,6 +60,10 @@ function DockIcon({ app }: { app: { name: string; image: string } }) {
           className={`w-full h-full ${isBin ? "object-contain" : "object-cover"}`}
         />
       </div>
+      {/* Open indicator dot */}
+      {app.isOpen && (
+        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/70 rounded-full" />
+      )}
     </div>
   );
 }
