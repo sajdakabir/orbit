@@ -19,8 +19,11 @@ export default function Footer() {
       {/* Large background text - centered behind content */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
         <h2
-          className="text-[220px] md:text-[320px] lg:text-[420px] font-black tracking-tighter leading-none whitespace-nowrap"
+          className="text-[220px] md:text-[320px] lg:text-[420px] tracking-tighter leading-none whitespace-nowrap"
           style={{
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontWeight: 700,
+            fontStyle: "italic",
             color: "transparent",
             WebkitTextStroke: "1.5px rgba(255,255,255,0.04)",
             background:
