@@ -18,11 +18,11 @@ export default function Home() {
       {/* <Logos /> */}
       <Features />
       <ProductShowcase />
-      <HowItWorks />
+      {/* <HowItWorks /> */}
       <Integrations />
       {/* <Bento /> */}
       {/* <Faq /> */}
-      <Cta />
+      {/* <Cta /> */}
       <Footer />
     </>
   );
