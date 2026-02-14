@@ -2,8 +2,8 @@ import { Twitter, Github, Youtube } from "lucide-react";
 
 export default function Footer() {
   const navigationLinks = [
-    { label: "Blog", href: "#" },
-    { label: "Documentation", href: "#" },
+    // { label: "Blog", href: "#" },
+    // { label: "Documentation", href: "#" },
     { label: "Terms of Service", href: "#" },
     { label: "Privacy Policy", href: "#" },
   ];
