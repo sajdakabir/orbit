@@ -2,9 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 
-const DEMO_TEXT = "Hey, can you send me the deck by tomorrow? Thanks!";
+const DEMO_TEXT = "What are the latest trends in AI for 2025?";
 const PHASE_TIMINGS = {
   idle: 1500,
   keyPress: 1200,
@@ -31,13 +30,12 @@ function DockIcon({ app }: { app: { name: string; image: string } }) {
   const isBin = app.name === "Bin";
   return (
     <div className="relative flex flex-col items-center">
-      <div className={`w-11 h-11 sm:w-12 sm:h-12 overflow-hidden shadow-lg ${isBin ? "" : "rounded-xl"}`}>
-        <Image
+      <div className={`w-11 h-11 sm:w-12 sm:h-12 ${isBin ? "" : "rounded-xl"} overflow-hidden ${isBin ? "" : "shadow-lg"}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={app.image}
           alt={app.name}
-          width={48}
-          height={48}
-          className={`w-full h-full ${isBin ? "object-contain mix-blend-lighten" : "object-cover"}`}
+          className={`w-full h-full ${isBin ? "object-contain" : "object-cover"}`}
         />
       </div>
     </div>
@@ -106,7 +104,7 @@ export default function HeroDemo() {
             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
           </svg>
           <div className="flex items-center gap-4 ml-4">
-            <span className="text-[11px] text-foreground/60 font-medium">Slack</span>
+            <span className="text-[11px] text-foreground/60 font-medium">Dia</span>
             <span className="text-[11px] text-foreground/40">File</span>
             <span className="text-[11px] text-foreground/40">Edit</span>
             <span className="text-[11px] text-foreground/40">View</span>
@@ -118,72 +116,86 @@ export default function HeroDemo() {
           </div>
         </div>
 
-        {/* Slack window - floating on desktop */}
-        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-bg-card/90 backdrop-blur-sm rounded-xl border border-border/60 shadow-2xl overflow-hidden">
-          {/* Slack title bar */}
-          <div className="h-10 bg-black/30 flex items-center px-3.5 gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-            <span className="text-[11px] text-dim ml-auto mr-auto">
-              Slack — #general
-            </span>
+        {/* Dia window - floating on desktop */}
+        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-[#1c1c1e]/95 backdrop-blur-sm rounded-xl border border-border/60 shadow-2xl overflow-hidden">
+          {/* Dia toolbar */}
+          <div className="h-10 bg-black/20 flex items-center px-3.5 gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+            </div>
+            <div className="flex items-center gap-2 ml-1">
+              <svg className="w-3 h-3 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+              <svg className="w-3 h-3 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+            </div>
+            <span className="text-[11px] text-dim ml-auto mr-auto">Dia</span>
+            <span className="text-[10px] text-dim">Personalization</span>
           </div>
 
-          {/* Slack content */}
-          <div className="px-5 py-4 flex flex-col h-[calc(100%-40px)]">
-            {/* Messages */}
-            <div className="space-y-3 mb-4">
-              <div className="flex items-start gap-2.5">
-                <div className="w-7 h-7 rounded-md bg-bg-card-hover shrink-0" />
-                <div>
-                  <span className="text-[12px] font-semibold text-foreground">
-                    Sarah
-                  </span>
-                  <span className="text-[10px] text-dim ml-2">10:32 AM</span>
-                  <p className="text-[13px] text-muted mt-0.5">
-                    Can someone review the Q4 report before Friday?
-                  </p>
-                </div>
+          {/* Dia content - centered layout */}
+          <div className="flex flex-col items-center justify-center h-[calc(100%-40px)] px-8">
+            {/* Dia logo */}
+            <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.08] flex items-center justify-center mb-8">
+              <div className="w-5 h-5 rounded-full bg-dim/40" />
+            </div>
+
+            {/* Search input */}
+            <div className="w-full max-w-[420px] bg-white/[0.06] border border-white/[0.08] rounded-2xl px-4 py-3">
+              <div className="flex items-center gap-2.5 min-h-[28px]">
+                {phase === "idle" && (
+                  <>
+                    <svg className="w-4 h-4 text-dim shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[13px] text-dim">
+                      Search the web...
+                      <span className="animate-pulse">|</span>
+                    </span>
+                  </>
+                )}
+                {phase === "keyPress" && (
+                  <>
+                    <svg className="w-4 h-4 text-dim shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[13px] text-dim">
+                      Search the web...
+                      <span className="animate-pulse">|</span>
+                    </span>
+                  </>
+                )}
+                {(phase === "listening" || phase === "done") && typedText && (
+                  <>
+                    <svg className="w-4 h-4 text-dim shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[13px] text-foreground">
+                      {typedText}
+                      {phase === "listening" && (
+                        <span className="animate-pulse">|</span>
+                      )}
+                    </span>
+                  </>
+                )}
               </div>
-              <div className="flex items-start gap-2.5">
-                <div className="w-7 h-7 rounded-md bg-bg-card-hover shrink-0" />
-                <div>
-                  <span className="text-[12px] font-semibold text-foreground">
-                    Mike
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/[0.05]">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-dim flex items-center gap-1">
+                    <span className="text-[13px]">+</span> Add tabs or files
                   </span>
-                  <span className="text-[10px] text-dim ml-2">10:45 AM</span>
-                  <p className="text-[13px] text-muted mt-0.5">
-                    I&apos;ll take a look this afternoon
-                  </p>
+                  <span className="text-dim text-[11px]">···</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" /></svg>
+                  <svg className="w-3.5 h-3.5 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                 </div>
               </div>
             </div>
 
-            {/* Message input */}
-            <div className="mt-auto">
-              <div className="bg-bg/80 border border-border rounded-lg px-3.5 py-2.5 min-h-10 flex items-center">
-                {phase === "idle" && (
-                  <span className="text-[13px] text-dim">
-                    Message #general
-                    <span className="animate-pulse">|</span>
-                  </span>
-                )}
-                {(phase === "listening" || phase === "done") && typedText && (
-                  <span className="text-[13px] text-foreground">
-                    {typedText}
-                    {phase === "listening" && (
-                      <span className="animate-pulse">|</span>
-                    )}
-                  </span>
-                )}
-                {phase === "keyPress" && (
-                  <span className="text-[13px] text-dim">
-                    Message #general
-                    <span className="animate-pulse">|</span>
-                  </span>
-                )}
-              </div>
+            {/* Action pills */}
+            <div className="flex items-center gap-3 mt-5">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[11px] text-dim">
+                <span className="text-[12px]">✦</span> Skills
+                <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[11px] text-dim">
+                <span className="text-[12px]">🎓</span> Learn Skills
+              </span>
             </div>
           </div>
         </div>
