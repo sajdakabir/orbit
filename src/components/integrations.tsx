@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const apps = [
   { name: "Slack", icon: "/icon/slack.svg" },
-  // { name: "Gmail", icon: "/icon/gmail.svg" },
   { name: "Notion", icon: "/icon/notion.svg" },
+  { name: "Gmail", icon: "/icon/gmail.svg" },
   { name: "Telegram", icon: "/icon/telegram.svg" },
   { name: "VS Code", icon: "/icon/vscode.png" },
   { name: "Google Docs", icon: "/icon/gdocs.svg" },
@@ -14,8 +14,14 @@ const apps = [
   { name: "Discord", icon: "/icon/discord.svg" },
   { name: "ChatGPT", icon: "/icon/chatgpt.svg" },
   { name: "Dia", icon: "/icon/dia.png" },
-  {name:"Orbit", icon:"/orbit copy.png"},
-  {name:"Terminal", icon:"/icon/Terminali.png"},
+  { name: "Orbit", icon: "/orbit copy.png" },
+  { name: "Terminal", icon: "/icon/Terminali.png" },
+  { name: "WhatsApp", icon: "/icon/whatsapp.svg" },
+  { name: "Figma", icon: "/icon/figma.svg" },
+  // { name: "Linear", icon: "/icon/linear.svg" },
+  // { name: "Safari", icon: "/icon/safari.svg" },
+  { name: "Spotify", icon: "/icon/spotify.svg" },
+  { name: "X", icon: "/icon/twitter.svg" },
 ];
 
 function AppIcon({ app }: { app: { name: string; icon: string } }) {
@@ -86,11 +92,14 @@ export default function Integrations() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="flex justify-center flex-wrap gap-4 max-w-[720px] mx-auto"
+          className="flex justify-center items-center flex-wrap gap-4 max-w-[720px] mx-auto"
         >
           {apps.map((app) => (
             <AppIcon key={app.name} app={app} />
           ))}
+          <span className="inline-flex items-center px-4 py-2.5 text-sm text-muted font-medium">
+            and many more...
+          </span>
         </motion.div>
       </div>
     </section>
