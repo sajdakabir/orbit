@@ -21,7 +21,7 @@ export default function Home() {
       {/* <Features /> */}
       {/* <ProductShowcase /> */}
       {/* <HowItWorks /> */}
-      {/* <Integrations /> */}
+      <Integrations />
       {/* <Bento /> */}
       {/* <Faq /> */}
       <Cta />

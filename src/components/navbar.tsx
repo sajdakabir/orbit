@@ -35,7 +35,7 @@ export default function Navbar() {
 
         {/* Links */}
         <ul className="hidden md:flex items-center gap-8">
-          {["Features", "How it works", "Integrations", "FAQ"].map((item) => (
+          {["Spaces", "Integrations"].map((item) => (
             <li key={item}>
               <a
                 href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}

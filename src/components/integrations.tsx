@@ -3,16 +3,18 @@
 import { motion } from "framer-motion";
 
 const apps = [
-  "Slack",
-  "Gmail",
-  "Notion",
-  "Telegram",
-  "VS Code",
-  "Google Docs",
-  "Messages",
-  "Discord",
-  "ChatGPT",
-  "Cursor",
+  { name: "Slack", icon: "/icon/slack.svg" },
+  // { name: "Gmail", icon: "/icon/gmail.svg" },
+  { name: "Notion", icon: "/icon/notion.svg" },
+  { name: "Telegram", icon: "/icon/telegram.svg" },
+  { name: "VS Code", icon: "/icon/vscode.png" },
+  { name: "Google Docs", icon: "/icon/gdocs.svg" },
+  { name: "SuperHuman", icon: "/icon/superhuman.avif" },
+  { name: "Discord", icon: "/icon/discord.svg" },
+  { name: "ChatGPT", icon: "/icon/chatgpt.svg" },
+  { name: "Dia", icon: "/icon/dia.png" },
+  {name:"Orbit", icon:"/orbit copy.png"},
+  {name:"Terminal", icon:"/icon/terminali.png"},
 ];
 
 export default function Integrations() {
@@ -53,12 +55,18 @@ export default function Integrations() {
           transition={{ delay: 0.2 }}
           className="flex justify-center flex-wrap gap-4 max-w-[720px] mx-auto"
         >
-          {apps.map((name) => (
+          {apps.map((app) => (
             <span
-              key={name}
-              className="inline-flex items-center gap-2.5 px-5 py-3 bg-bg-card border border-border rounded-full text-sm font-medium text-muted hover:bg-bg-card-hover hover:border-dim hover:text-foreground transition-all"
+              key={app.name}
+              title={app.name}
+              className="inline-flex items-center justify-center w-12 h-12 bg-bg-card border border-border rounded-full hover:bg-bg-card-hover hover:border-dim hover:scale-110 transition-all cursor-pointer"
             >
-              {name}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={app.icon}
+                alt={app.name}
+                className="w-6 h-6 object-contain"
+              />
             </span>
           ))}
         </motion.div>

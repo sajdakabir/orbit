@@ -15,7 +15,7 @@ export default function SpacesShowcase() {
   ];
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="spaces" className="relative py-24 overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
