@@ -9,21 +9,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Orbit — Your voice is the new keyboard",
+  title: "Orbit — Your second brain, powered by voice",
   description:
     "Orbit is an AI-powered voice companion that turns your speech into perfect text, anywhere on your computer. Stop typing. Start speaking.",
-  metadataBase: new URL("https://orbitvoice.app"),
+  metadataBase: new URL("https://orbit.sajdakabir.com"),
   openGraph: {
-    title: "Orbit — Your voice is the new keyboard",
+    title: "Orbit — Your second brain, powered by voice",
     description:
       "AI-powered voice dictation that turns speech into perfect text, anywhere on your computer.",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Orbit — Your second brain, powered by voice",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Orbit — Your voice is the new keyboard",
+    title: "Orbit — Your second brain, powered by voice",
     description:
       "AI-powered voice dictation that turns speech into perfect text, anywhere on your computer.",
+    images: ["/og.png"],
   },
 };
 
