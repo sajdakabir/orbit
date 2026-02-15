@@ -27,8 +27,8 @@ export default function Navbar() {
           href="#"
           className="flex items-center gap-2.5 font-bold text-lg tracking-tight"
         >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-            <OrbitIcon width={20} height={18} />
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center">
+            <OrbitIcon width={28} height={26} />
           </div>
           Orbit
         </a>
