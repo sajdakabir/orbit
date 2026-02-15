@@ -15,7 +15,7 @@ const apps = [
   { name: "ChatGPT", icon: "/icon/chatgpt.svg" },
   { name: "Dia", icon: "/icon/dia.png" },
   {name:"Orbit", icon:"/orbit copy.png"},
-  {name:"Terminal", icon:"/icon/terminali.png"},
+  {name:"Terminal", icon:"/icon/Terminali.png"},
 ];
 
 function AppIcon({ app }: { app: { name: string; icon: string } }) {
