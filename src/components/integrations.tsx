@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const apps = [
   { name: "Slack", icon: "/icon/slack.svg" },
@@ -16,6 +17,38 @@ const apps = [
   {name:"Orbit", icon:"/orbit copy.png"},
   {name:"Terminal", icon:"/icon/terminali.png"},
 ];
+
+function AppIcon({ app }: { app: { name: string; icon: string } }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <span
+      className="relative inline-flex items-center justify-center w-12 h-12 bg-bg-card border border-border rounded-full hover:bg-bg-card-hover hover:border-dim hover:scale-110 transition-all cursor-pointer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-9 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#2a2a2c] border border-white/10 rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
+          >
+            <span className="text-[11px] text-white font-medium">{app.name}</span>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#2a2a2c]" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={app.icon}
+        alt={app.name}
+        className="w-6 h-6 object-contain"
+      />
+    </span>
+  );
+}
 
 export default function Integrations() {
   return (
@@ -56,18 +89,7 @@ export default function Integrations() {
           className="flex justify-center flex-wrap gap-4 max-w-[720px] mx-auto"
         >
           {apps.map((app) => (
-            <span
-              key={app.name}
-              title={app.name}
-              className="inline-flex items-center justify-center w-12 h-12 bg-bg-card border border-border rounded-full hover:bg-bg-card-hover hover:border-dim hover:scale-110 transition-all cursor-pointer"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={app.icon}
-                alt={app.name}
-                className="w-6 h-6 object-contain"
-              />
-            </span>
+            <AppIcon key={app.name} app={app} />
           ))}
         </motion.div>
       </div>
