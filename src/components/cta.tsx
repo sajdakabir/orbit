@@ -16,7 +16,7 @@ export default function Cta() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] mb-6"
         >
-          Ready to ditch the keyboard?
+         Are you convinced to ditch the keyboard?
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -37,22 +37,22 @@ export default function Cta() {
           className="flex flex-col sm:flex-row justify-center gap-4"
         >
           <a
-            href="/Orbit-local-Installer.dmg"
+            href=""
             download
             className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-bg text-[15px] font-semibold rounded-full hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] transition-all"
           >
-            <Apple className="w-[18px] h-[18px]" />
+           
             Download for Mac
           </a>
           <a
-            href="#"
+            href=""
             className="inline-flex items-center gap-2.5 px-7 py-3.5 text-muted text-[15px] font-medium border border-border rounded-full hover:text-foreground hover:border-dim transition-all"
           >
-            Windows (Coming soon)
+            Windows (sorry, not yet)
           </a>
         </motion.div>
 
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -60,7 +60,7 @@ export default function Cta() {
           className="mt-4 text-[13px] text-dim"
         >
           Available on macOS 12+. Free to get started.
-        </motion.p>
+        </motion.p> */}
       </div>
     </section>
   );

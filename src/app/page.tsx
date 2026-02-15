@@ -24,7 +24,7 @@ export default function Home() {
       {/* <Integrations /> */}
       {/* <Bento /> */}
       {/* <Faq /> */}
-      {/* <Cta /> */}
+      <Cta />
       <Footer />
     </>
   );
