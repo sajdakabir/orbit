@@ -28,7 +28,7 @@ function AppIcon({ app }: { app: { name: string; icon: string } }) {
   const [hovered, setHovered] = useState(false);
   return (
     <span
-      className="relative inline-flex items-center justify-center w-12 h-12 bg-bg-card border border-border rounded-full hover:bg-bg-card-hover hover:border-dim hover:scale-110 transition-all cursor-pointer"
+      className="relative inline-flex items-center justify-center w-12 h-12 bg-bg-card border border-border shadow-[0_1px_3px_rgba(0,0,0,0.08)] dark:shadow-none rounded-full hover:bg-bg-card-hover hover:border-dim hover:scale-110 transition-all cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
