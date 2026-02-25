@@ -39,10 +39,10 @@ function AppIcon({ app }: { app: { name: string; icon: string } }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.15 }}
-            className="absolute -top-9 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#2a2a2c] border border-white/10 rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
+            className="absolute -top-9 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-tooltip-bg border border-tooltip-border rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
           >
-            <span className="text-[11px] text-white font-medium">{app.name}</span>
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#2a2a2c]" />
+            <span className="text-[11px] text-tooltip-text font-medium">{app.name}</span>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-tooltip-bg" />
           </motion.div>
         )}
       </AnimatePresence>

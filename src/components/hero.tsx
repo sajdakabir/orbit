@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section className="relative pt-44 pb-28 text-center overflow-hidden">
       {/* Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,var(--color-glow)_0%,transparent_70%)] opacity-40 pointer-events-none" />
 
       <div className="relative max-w-[1120px] mx-auto px-6">
         {/* Badge */}

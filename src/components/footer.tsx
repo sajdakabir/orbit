@@ -25,9 +25,9 @@ export default function Footer() {
             fontWeight: 700,
             fontStyle: "italic",
             color: "transparent",
-            WebkitTextStroke: "1.5px rgba(255,255,255,0.04)",
+            WebkitTextStroke: "1.5px var(--color-watermark-stroke)",
             background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.01))",
+              "linear-gradient(to bottom, var(--color-watermark-fill), transparent)",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
           }}

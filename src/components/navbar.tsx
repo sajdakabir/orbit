@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 import OrbitIcon from "./orbit-icon";
+import ThemeToggle from "./theme-toggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,15 +52,18 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* CTA */}
-        <a
-          href=""
-          download
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-bg text-sm font-semibold rounded-full hover:opacity-90 hover:-translate-y-px transition-all"
-        >
-          Download
-          <Download className="w-3.5 h-3.5" />
-        </a>
+        {/* Actions */}
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href=""
+            download
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-bg text-sm font-semibold rounded-full hover:opacity-90 hover:-translate-y-px transition-all"
+          >
+            Download
+            <Download className="w-3.5 h-3.5" />
+          </a>
+          <ThemeToggle />
+        </div>
       </div>
     </nav>
   );

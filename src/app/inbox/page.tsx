@@ -39,7 +39,7 @@ export default function InboxPage() {
       {/* Hero */}
       <section className="relative pt-44 pb-20 text-center overflow-hidden">
         {/* Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,var(--color-glow)_0%,transparent_70%)] opacity-40 pointer-events-none" />
 
         <div className="relative max-w-[1120px] mx-auto px-6">
           {/* Back link */}
@@ -203,7 +203,7 @@ export default function InboxPage() {
             <a
               href=""
               download
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-bg text-[15px] font-semibold rounded-full hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] transition-all"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-bg text-[15px] font-semibold rounded-full hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_30px_var(--color-shadow)] transition-all"
             >
               Download for Mac
             </a>

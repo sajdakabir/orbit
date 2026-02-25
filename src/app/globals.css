@@ -1,6 +1,39 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
+  /* Light theme values (default) — registered as Tailwind tokens */
+  --color-bg: #ffffff;
+  --color-bg-raised: #f5f5f7;
+  --color-bg-card: #f0f0f2;
+  --color-bg-card-hover: #e8e8ec;
+  --color-border: #d4d4d8;
+  --color-border-subtle: #e4e4e7;
+  --color-foreground: #0a0a0a;
+  --color-muted: #52525b;
+  --color-dim: #a1a1aa;
+  --color-accent: #0a0a0a;
+  --color-accent-soft: rgba(10, 10, 10, 0.08);
+  --color-accent-glow: rgba(10, 10, 10, 0.10);
+  --color-tooltip-bg: #ffffff;
+  --color-tooltip-text: #0a0a0a;
+  --color-tooltip-border: rgba(0, 0, 0, 0.12);
+  --color-glow: rgba(0, 0, 0, 0.04);
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --font-sans: var(--font-inter);
+}
+
+/* Light theme extras (must come before .dark so dark overrides win) */
+:root {
+  --color-watermark-stroke: rgba(0, 0, 0, 0.04);
+  --color-watermark-fill: rgba(0, 0, 0, 0.06);
+  --color-scrollbar: #ccc;
+  --color-scrollbar-hover: #aaa;
+  --color-selection-bg: rgba(10, 10, 10, 0.2);
+  --color-selection-text: #ffffff;
+}
+
+/* Dark theme — exact match of the original site */
+.dark {
   --color-bg: #0a0a0a;
   --color-bg-raised: #111113;
   --color-bg-card: #161618;
@@ -13,7 +46,17 @@
   --color-accent: #f5f5f7;
   --color-accent-soft: rgba(245, 245, 247, 0.08);
   --color-accent-glow: rgba(245, 245, 247, 0.15);
-  --font-sans: var(--font-inter);
+  --color-tooltip-bg: #2a2a2c;
+  --color-tooltip-text: #ffffff;
+  --color-tooltip-border: rgba(255, 255, 255, 0.10);
+  --color-glow: rgba(255, 255, 255, 0.05);
+  --color-shadow: rgba(255, 255, 255, 0.08);
+  --color-watermark-stroke: rgba(255, 255, 255, 0.04);
+  --color-watermark-fill: rgba(255, 255, 255, 0.06);
+  --color-scrollbar: #333;
+  --color-scrollbar-hover: #555;
+  --color-selection-bg: rgba(245, 245, 247, 0.2);
+  --color-selection-text: #0a0a0a;
 }
 
 html {
@@ -29,11 +72,11 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 245, 247, 0.2);
-  color: #0a0a0a;
+  background: var(--color-selection-bg);
+  color: var(--color-selection-text);
 }
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #555; }
+::-webkit-scrollbar-thumb { background: var(--color-scrollbar); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-scrollbar-hover); }
