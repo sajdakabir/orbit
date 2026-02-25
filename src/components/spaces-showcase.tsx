@@ -8,6 +8,7 @@ export default function SpacesShowcase() {
 
   const templates = [
     { name: "Today", image: "/screenshots/today.png" },
+    { name: "Inbox", image: "/screenshots/inbox.png" },
     { name: "Notes", image: "/screenshots/notes.png" },
     { name: "Dictionary", image: "/screenshots/dictionary.png" },
     { name: "Home", image: "/screenshots/home.png" },

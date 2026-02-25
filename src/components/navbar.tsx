@@ -35,13 +35,17 @@ export default function Navbar() {
 
         {/* Links */}
         <ul className="hidden md:flex items-center gap-8">
-          {["Spaces", "Integrations"].map((item) => (
-            <li key={item}>
+          {[
+            { label: "Spaces", href: "#spaces" },
+            { label: "Inbox", href: "/inbox" },
+            { label: "Integrations", href: "#integrations" },
+          ].map((item) => (
+            <li key={item.label}>
               <a
-                href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                href={item.href}
                 className="text-sm font-medium text-muted hover:text-foreground transition-colors"
               >
-                {item}
+                {item.label}
               </a>
             </li>
           ))}
