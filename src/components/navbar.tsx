@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="max-w-[1120px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <a
-          href="#"
+          href="/"
           className="flex items-center gap-2.5 font-bold text-lg tracking-tight"
         >
           <div className="w-9 h-9 rounded-lg flex items-center justify-center">
