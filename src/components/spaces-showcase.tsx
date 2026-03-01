@@ -251,43 +251,40 @@ export default function SpacesShowcase() {
           </div>
 
           {/* ── Descriptions Container ──────────────────── */}
-          <div className="relative mt-10" style={{ minHeight: "130px" }}>
+          <div className="relative mt-10" style={{ minHeight: "180px" }}>
             {/* First descriptions */}
             <motion.div
               className="absolute inset-x-0 top-0"
               style={{ opacity: firstDescOpacity }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                  <h3 className="font-[family-name:var(--font-manrope)] text-[20px] font-normal text-foreground mb-3 tracking-[-0.01em]">
+              <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+                <div className="max-w-[600px]">
+                  <h3 className="font-[family-name:var(--font-manrope)] text-[22px] font-medium text-foreground mb-3 tracking-[-0.01em]">
                     Dictating with technical accuracy
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed mb-6">
+                  <p className="text-[15px] text-muted leading-relaxed mb-6">
                     We benchmarked models on how accurately they capture
                     developer language. Orbit consistently nails terms like
                     useState, kubectl, and PyTorch.
                   </p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-dim">Designed for</span>
-                    <div className="flex items-center gap-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/icon/slack.svg" alt="Slack" className="w-6 h-6 rounded" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/icon/notion.svg" alt="Notion" className="w-6 h-6 rounded" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/icon/figma.svg" alt="Figma" className="w-6 h-6 rounded" />
-                    </div>
+                  <div className="flex items-center gap-2.5 text-sm text-muted">
+                    Hold
+                    <kbd className="inline-flex items-center justify-center px-3.5 py-1.5 bg-foreground text-bg text-xs font-medium rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.15)]">
+                      fn
+                    </kbd>
+                    and try yourself
                   </div>
                 </div>
-                <div>
-                  <h3 className="font-[family-name:var(--font-manrope)] text-[20px] font-normal text-foreground mb-3 tracking-[-0.01em]">
-                    Contextual formatting
-                  </h3>
-                  <p className="text-sm text-muted leading-relaxed">
-                    Orbit formats your speech the way developers expect — with
-                    proper punctuation, markdown awareness, and context-sensitive
-                    styling across languages and frameworks.
-                  </p>
+                <div className="flex items-center gap-3 shrink-0 lg:pt-1">
+                  <span className="text-sm text-dim whitespace-nowrap">Designed for</span>
+                  <div className="flex items-center gap-2.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icon/slack.svg" alt="Slack" className="w-8 h-8 rounded-lg" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icon/notion.svg" alt="Notion" className="w-8 h-8 rounded-lg" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icon/figma.svg" alt="Figma" className="w-8 h-8 rounded-lg" />
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -297,55 +294,37 @@ export default function SpacesShowcase() {
               className="absolute inset-x-0 top-0"
               style={{ opacity: secondDescOpacity }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] items-center gap-6 lg:gap-10">
-                {/* Left logos */}
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-dim whitespace-nowrap">Designed for</span>
-                  <div className="flex items-center gap-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/chatgpt.svg" alt="ChatGPT" className="w-6 h-6 rounded" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/superhuman.avif" alt="Superhuman" className="w-6 h-6 rounded" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/discord.svg" alt="Discord" className="w-6 h-6 rounded" />
-                  </div>
-                </div>
-
-                {/* Center title + description */}
-                <div className="text-center">
-                  <h3 className="font-[family-name:var(--font-manrope)] text-[20px] font-normal text-foreground mb-2 tracking-[-0.01em]">
+              <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+                <div className="max-w-[600px]">
+                  <h3 className="font-[family-name:var(--font-manrope)] text-[22px] font-medium text-foreground mb-3 tracking-[-0.01em]">
                     Prompt at the speed of thought
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed max-w-[480px] mx-auto">
+                  <p className="text-[15px] text-muted leading-relaxed mb-6">
                     Orbit turns natural, rambling speech into precise prompts —
                     letting you build faster without stopping to edit your
                     thoughts.
                   </p>
+                  <div className="flex items-center gap-2.5 text-sm text-muted">
+                    Hold
+                    <kbd className="inline-flex items-center justify-center px-3.5 py-1.5 bg-foreground text-bg text-xs font-medium rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.15)]">
+                      fn
+                    </kbd>
+                    and try yourself
+                  </div>
                 </div>
-
-                {/* Right logos */}
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-dim whitespace-nowrap">Designed for</span>
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 shrink-0 lg:pt-1">
+                  <span className="text-sm text-dim whitespace-nowrap">Designed for</span>
+                  <div className="flex items-center gap-2.5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/gmail.svg" alt="Gmail" className="w-6 h-6 rounded" />
+                    <img src="/icon/chatgpt.svg" alt="ChatGPT" className="w-8 h-8 rounded-lg" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/gdocs.svg" alt="Google Docs" className="w-6 h-6 rounded" />
+                    <img src="/icon/superhuman.avif" alt="Superhuman" className="w-8 h-8 rounded-lg" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon/figma.svg" alt="Figma" className="w-6 h-6 rounded" />
+                    <img src="/icon/discord.svg" alt="Discord" className="w-8 h-8 rounded-lg" />
                   </div>
                 </div>
               </div>
             </motion.div>
-          </div>
-
-          {/* ── Hold-key CTA ──────────────────────────────── */}
-          <div className="flex items-center justify-center gap-2.5 mt-12 text-sm text-muted">
-            Hold
-            <kbd className="inline-flex items-center justify-center px-3.5 py-1.5 bg-foreground text-bg text-xs font-medium rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.15)]">
-              Space
-            </kbd>
-            and try yourself
           </div>
         </div>
       </div>

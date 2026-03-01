@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import OrbitIcon from "./orbit-icon";
 
 export default function Cta() {
   return (
@@ -59,48 +60,77 @@ export default function Cta() {
         </motion.div>
       </div>
 
-      {/* Bottom abstract light area */}
-      <div className="relative h-[300px] sm:h-[360px] bg-[#EEF1F0] rounded-t-2xl overflow-hidden mx-0">
-        {/* Top fade from white into card */}
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white via-[#F6F8FA] to-transparent z-10 pointer-events-none" />
+      {/* Bottom abstract orbit area */}
+      <div className="relative h-[340px] sm:h-[400px] bg-[#132f38] rounded-t-[32px] overflow-hidden mx-0">
+        {/* Top fade from white into dark */}
+        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white via-white/60 to-transparent z-10 pointer-events-none" />
 
-        {/* Floating abstract elements */}
+        {/* Orbital rings SVG */}
         <div className="absolute inset-0 flex items-center justify-center">
-          {/* Grid of subtle lines */}
-          <div className="absolute inset-0 opacity-[0.35]">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={i}
-                className="absolute h-px bg-border"
-                style={{
-                  top: `${12 + i * 8}%`,
-                  left: "8%",
-                  right: "8%",
-                }}
-              />
-            ))}
-          </div>
+          <svg
+            viewBox="0 0 800 500"
+            fill="none"
+            className="w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            {/* Concentric orbit ellipses — mimicking the icon's curved lines */}
+            {Array.from({ length: 14 }, (_, i) => {
+              const rx = 80 + i * 28;
+              const ry = 40 + i * 18;
+              const rotation = -20 + i * 3;
+              const opacity = 0.03 + i * 0.015;
+              return (
+                <ellipse
+                  key={i}
+                  cx={400}
+                  cy={280}
+                  rx={rx}
+                  ry={ry}
+                  transform={`rotate(${rotation} 400 280)`}
+                  stroke="white"
+                  strokeWidth={0.8}
+                  opacity={opacity}
+                />
+              );
+            })}
 
-          {/* Floating code-like boxes */}
-          <div className="absolute top-[35%] left-[10%] border border-[#E9EFF2] rounded-lg px-5 py-3 bg-[#F6F8FA]/80">
-            <p className="text-dim font-mono text-xs">
-              <span className="text-dim/50 mr-1">✦</span> voice.transcribe()
-            </p>
-          </div>
-          <div className="absolute top-[55%] right-[12%] border border-[#E9EFF2] rounded-lg px-5 py-3 bg-[#F6F8FA]/80">
-            <p className="text-dim font-mono text-xs">
-              <span className="text-dim/50 mr-1">{">"}</span> formatting...
-            </p>
-          </div>
-          <div className="absolute top-[70%] left-[30%] border border-[#E9EFF2] rounded-lg px-4 py-2.5 bg-[#F6F8FA]/80">
-            <p className="text-dim/70 font-mono text-[11px]">
-              output → ready
-            </p>
+            {/* Subtle radial glow at center */}
+            <defs>
+              <radialGradient id="orbitGlow" cx="50%" cy="56%" r="30%">
+                <stop offset="0%" stopColor="#ede6f3" stopOpacity="0.07" />
+                <stop offset="100%" stopColor="#ede6f3" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            <rect x="0" y="0" width="800" height="500" fill="url(#orbitGlow)" />
+          </svg>
+        </div>
+
+        {/* Center orbit icon */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 pt-10">
+          <div className="text-white/10">
+            <OrbitIcon width={80} height={72} />
           </div>
         </div>
 
-        {/* Bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#EEF1F0] to-transparent pointer-events-none" />
+        {/* Floating code snippets */}
+        <div className="absolute top-[40%] left-[8%] border border-white/[0.06] rounded-lg px-5 py-3 bg-white/[0.04] backdrop-blur-sm z-10">
+          <p className="text-white/25 font-mono text-xs">
+            <span className="text-white/15 mr-1">✦</span> voice.transcribe()
+          </p>
+        </div>
+        <div className="absolute top-[55%] right-[10%] border border-white/[0.06] rounded-lg px-5 py-3 bg-white/[0.04] backdrop-blur-sm z-10">
+          <p className="text-white/25 font-mono text-xs">
+            <span className="text-white/15 mr-1">{">"}</span> formatting...
+          </p>
+        </div>
+        <div className="absolute top-[72%] left-[25%] border border-white/[0.06] rounded-lg px-4 py-2.5 bg-white/[0.04] backdrop-blur-sm z-10">
+          <p className="text-white/20 font-mono text-[11px]">
+            output → ready
+          </p>
+        </div>
+
+        {/* Bottom fade into footer */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#112a33] to-transparent pointer-events-none" />
       </div>
     </section>
   );

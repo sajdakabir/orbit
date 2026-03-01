@@ -7,10 +7,8 @@ const apps = [
   { name: "ChatGPT", icon: "/icon/chatgpt.svg" },
   { name: "Slack", icon: "/icon/slack.svg" },
   { name: "Gmail", icon: "/icon/gmail.svg" },
-  { name: "Spotify", icon: "/icon/spotify.svg" },
   { name: "Google Docs", icon: "/icon/gdocs.svg" },
   { name: "SuperHuman", icon: "/icon/superhuman.avif" },
-  { name: "Figma", icon: "/icon/figma.svg" },
   { name: "Discord", icon: "/icon/discord.svg" },
 ];
 

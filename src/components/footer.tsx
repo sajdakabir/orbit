@@ -1,31 +1,54 @@
 import { Twitter, Github, Linkedin } from "lucide-react";
+import OrbitIcon from "./orbit-icon";
 
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden">
-      {/* Textured background */}
       <div className="max-w-[1280px] mx-auto">
-        <div className="relative bg-[#EEF1F0] mx-0 overflow-hidden">
-          {/* Noise texture overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.12] pointer-events-none"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-              backgroundSize: "200px 200px",
-            }}
-          />
+        <div className="relative bg-[#112a33] mx-0 overflow-hidden">
+          {/* Subtle orbital rings background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <svg
+              viewBox="0 0 800 300"
+              fill="none"
+              className="w-full h-full"
+              preserveAspectRatio="xMidYMid slice"
+            >
+              {Array.from({ length: 8 }, (_, i) => {
+                const rx = 120 + i * 40;
+                const ry = 60 + i * 25;
+                const rotation = -15 + i * 4;
+                const opacity = 0.02 + i * 0.008;
+                return (
+                  <ellipse
+                    key={i}
+                    cx={400}
+                    cy={200}
+                    rx={rx}
+                    ry={ry}
+                    transform={`rotate(${rotation} 400 200)`}
+                    stroke="white"
+                    strokeWidth={0.6}
+                    opacity={opacity}
+                  />
+                );
+              })}
+            </svg>
+          </div>
 
           {/* Main footer content */}
           <div className="relative px-8 md:px-12 pt-16 pb-8">
             {/* Logo + Tagline */}
             <div className="mb-20">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="w-2 h-2 bg-foreground rounded-full" />
-                <span className="text-lg font-semibold text-foreground tracking-tight">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="text-white/50">
+                  <OrbitIcon width={18} height={16} />
+                </div>
+                <span className="text-lg font-semibold text-white/70 tracking-tight">
                   Orbit
                 </span>
               </div>
-              <p className="text-sm text-muted leading-relaxed max-w-[320px]">
+              <p className="text-sm text-white/25 leading-relaxed max-w-[320px]">
                 Your second brain, powered by voice.
                 <br />
                 Dictate anywhere, format everything.
@@ -33,9 +56,9 @@ export default function Footer() {
             </div>
 
             {/* Bottom bar */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-[#E9EFF2]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-white/[0.06]">
               {/* Copyright */}
-              <p className="text-xs text-muted">
+              <p className="text-xs text-white/20">
                 Orbit &middot; {new Date().getFullYear()} All Rights Reserved
               </p>
 
@@ -45,7 +68,7 @@ export default function Footer() {
                   href="https://x.com/sajdakabir"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted hover:text-foreground transition-colors"
+                  className="text-white/20 hover:text-white/50 transition-colors"
                   aria-label="Twitter"
                 >
                   <Twitter className="w-4 h-4" />
@@ -54,7 +77,7 @@ export default function Footer() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted hover:text-foreground transition-colors"
+                  className="text-white/20 hover:text-white/50 transition-colors"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
@@ -63,7 +86,7 @@ export default function Footer() {
                   href="https://github.com/sajdakabir/orbit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted hover:text-foreground transition-colors"
+                  className="text-white/20 hover:text-white/50 transition-colors"
                   aria-label="GitHub"
                 >
                   <Github className="w-4 h-4" />
@@ -71,12 +94,12 @@ export default function Footer() {
               </div>
 
               {/* Legal links */}
-              <div className="flex items-center gap-1 text-xs text-muted">
-                <a href="#" className="hover:text-foreground transition-colors">
+              <div className="flex items-center gap-1 text-xs text-white/20">
+                <a href="#" className="hover:text-white/50 transition-colors">
                   Terms of Service
                 </a>
                 <span>&middot;</span>
-                <a href="#" className="hover:text-foreground transition-colors">
+                <a href="#" className="hover:text-white/50 transition-colors">
                   Privacy Policy
                 </a>
               </div>

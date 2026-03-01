@@ -18,9 +18,9 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <OpenSourceStats />
       <SpacesShowcase />
       <div className="max-w-[1280px] mx-auto border-x border-border">
-        <OpenSourceStats />
         {/* <Logos /> */}
         {/* <Features /> */}
         {/* <ProductShowcase /> */}

@@ -190,7 +190,7 @@ export default function OpenSourceStats() {
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col">
               {/* Chart */}
-              <div className="h-[200px] text-foreground mb-6">{stat.chart}</div>
+              <div className="h-[160px] max-w-[260px] mx-auto text-foreground mb-6">{stat.chart}</div>
 
               {/* Caption */}
               <p className="text-xs text-muted font-mono tracking-wide">
