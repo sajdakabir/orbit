@@ -44,15 +44,15 @@ function DockIcon({ app }: { app: { name: string; image: string; isOpen: boolean
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.15 }}
-            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#2a2a2c] border border-white/10 rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
+            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-foreground border border-foreground/10 rounded-md shadow-lg z-50 whitespace-nowrap pointer-events-none"
           >
             <span className="text-[11px] text-white font-medium">{app.name}</span>
             {/* Tooltip arrow */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#2a2a2c]" />
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-foreground" />
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={`w-11 h-11 sm:w-12 sm:h-12 ${isBin ? "" : "rounded-xl"} overflow-hidden ${isBin ? "" : "shadow-lg"}`}>
+      <div className={`w-11 h-11 sm:w-12 sm:h-12 ${isBin ? "" : "rounded-xl"} overflow-hidden ${isBin ? "" : "shadow-md"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={app.image}
@@ -62,7 +62,7 @@ function DockIcon({ app }: { app: { name: string; image: string; isOpen: boolean
       </div>
       {/* Open indicator dot */}
       {app.isOpen && (
-        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/70 rounded-full" />
+        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-foreground/40 rounded-full" />
       )}
     </div>
   );
@@ -118,25 +118,17 @@ export default function HeroDemo() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-border bg-bg-raised"
+      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/60 shadow-[0_4px_40px_rgba(0,0,0,0.08)]"
     >
-      <div className="w-full aspect-[16/10] relative overflow-hidden">
-        {/* Desktop wallpaper */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/screenshots/wall.jpeg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
+      <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-b from-[#ddd6f3] via-[#e8dff0] to-[#f5d5cc]">
 
         {/* macOS Menu bar */}
-        <div className="absolute top-0 inset-x-0 h-7 bg-black/40 backdrop-blur-xl flex items-center px-4 z-10">
-          <svg className="w-3.5 h-3.5 text-foreground/70" viewBox="0 0 24 24" fill="currentColor">
+        <div className="absolute top-0 inset-x-0 h-7 bg-white/50 backdrop-blur-xl flex items-center px-4 z-10 border-b border-white/40">
+          <svg className="w-3.5 h-3.5 text-foreground/80" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
           </svg>
           <div className="flex items-center gap-4 ml-4">
-            <span className="text-[11px] text-foreground/60 font-medium">Dia</span>
+            <span className="text-[11px] text-foreground/70 font-medium">Dia</span>
             <span className="text-[11px] text-foreground/40">File</span>
             <span className="text-[11px] text-foreground/40">Edit</span>
             <span className="text-[11px] text-foreground/40">View</span>
@@ -149,9 +141,9 @@ export default function HeroDemo() {
         </div>
 
         {/* Dia window - floating on desktop */}
-        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-[#1c1c1e]/95 backdrop-blur-sm rounded-xl border border-border/60 shadow-2xl overflow-hidden">
+        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-white/70 backdrop-blur-2xl rounded-xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
           {/* Dia toolbar */}
-          <div className="h-10 bg-black/20 flex items-center px-3.5 gap-3">
+          <div className="h-10 bg-white/40 backdrop-blur-sm flex items-center px-3.5 gap-3 border-b border-white/50">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
@@ -161,7 +153,7 @@ export default function HeroDemo() {
               <svg className="w-3 h-3 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
               <svg className="w-3 h-3 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
             </div>
-            <span className="text-[11px] text-dim ml-auto mr-auto">Dia</span>
+            <span className="text-[11px] text-muted ml-auto mr-auto">Dia</span>
             <span className="text-[10px] text-dim">Personalization</span>
           </div>
 
@@ -174,7 +166,7 @@ export default function HeroDemo() {
             </div>
 
             {/* Search input */}
-            <div className="w-full max-w-[420px] bg-white/[0.06] border border-white/[0.08] rounded-2xl px-4 py-3">
+            <div className="w-full max-w-[420px] bg-white/50 border border-white/60 rounded-2xl px-4 py-3">
               <div className="flex items-center gap-2.5 min-h-[28px]">
                 {phase === "idle" && (
                   <>
@@ -206,7 +198,7 @@ export default function HeroDemo() {
                   </>
                 )}
               </div>
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/[0.05]">
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] text-dim flex items-center gap-1">
                     <span className="text-[13px]">+</span> Add tabs or files
@@ -222,11 +214,11 @@ export default function HeroDemo() {
 
             {/* Action pills */}
             <div className="flex items-center gap-3 mt-5">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[11px] text-dim">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/40 border border-white/50 rounded-full text-[11px] text-muted">
                 <span className="text-[12px]">✦</span> Skills
                 <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-full text-[11px] text-dim">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/40 border border-white/50 rounded-full text-[11px] text-muted">
                 <span className="text-[12px]">🎓</span> Learn Skills
               </span>
             </div>
@@ -235,12 +227,12 @@ export default function HeroDemo() {
 
         {/* macOS Dock */}
         <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20">
-          <div className="flex items-end gap-1.5 px-3 py-1.5 bg-white/8 backdrop-blur-2xl border border-white/12 rounded-2xl">
+          <div className="flex items-end gap-1.5 px-3 py-1.5 bg-white/50 backdrop-blur-2xl border border-white/60 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.06)]">
             {dockApps.map((app) => (
               <DockIcon key={app.name} app={app} />
             ))}
             {/* Dock divider */}
-            <div className="w-px h-10 bg-white/10 mx-1" />
+            <div className="w-px h-10 bg-black/10 mx-1" />
             {dockAppsRight.map((app) => (
               <DockIcon key={app.name} app={app} />
             ))}
@@ -256,7 +248,7 @@ export default function HeroDemo() {
               exit={{ opacity: 0, scale: 0.9 }}
               className="absolute bottom-22 left-1/2 -translate-x-1/2 z-30"
             >
-              <span className="px-4 py-2 bg-foreground text-bg rounded-xl text-sm font-bold font-mono shadow-lg shadow-black/30">
+              <span className="px-4 py-2 bg-foreground text-white rounded-xl text-sm font-bold font-mono shadow-lg shadow-black/10">
                 fn
               </span>
             </motion.div>
@@ -271,7 +263,7 @@ export default function HeroDemo() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: -10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2.5 px-4 py-2 bg-bg border border-border rounded-full shadow-2xl shadow-black/40"
+              className="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2.5 px-4 py-2 bg-white border border-border rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
             >
               <span className="relative w-2.5 h-2.5 bg-red-500 rounded-full">
                 <span className="absolute -inset-1 border-2 border-red-500 rounded-full animate-ping" />
@@ -284,7 +276,7 @@ export default function HeroDemo() {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <div
                     key={i}
-                    className="w-[2px] rounded-full bg-foreground/60"
+                    className="w-[2px] rounded-full bg-foreground/40"
                     style={{
                       animation: `miniWave 0.8s ease-in-out ${i * 0.1}s infinite`,
                     }}
@@ -302,10 +294,10 @@ export default function HeroDemo() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 bg-bg border border-border rounded-full shadow-2xl shadow-black/40"
+              className="absolute bottom-22 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.08)]"
             >
               <svg
-                className="w-4 h-4 text-emerald-400"
+                className="w-4 h-4 text-emerald-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2.5}
@@ -324,9 +316,6 @@ export default function HeroDemo() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Bottom glow bar */}
-      <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-2/5 h-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent rounded-full blur-sm" />
 
       <style jsx>{`
         @keyframes miniWave {

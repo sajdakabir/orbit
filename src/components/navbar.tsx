@@ -53,7 +53,7 @@ export default function Navbar() {
         <a
           href=""
           download
-          className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 bg-accent-soft border border-accent/10 text-foreground text-sm font-bold rounded-full hover:bg-accent-glow transition-all"
+          className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#faf8fc] to-[#fdf6f4] border border-[#ede6f3]/40 text-foreground text-sm font-bold rounded-full hover:opacity-90 transition-all"
         >
           Download
           <Download className="w-3.5 h-3.5" strokeWidth={2.5} />

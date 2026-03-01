@@ -12,7 +12,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-accent-soft border border-accent/10 rounded-full text-[13px] font-medium text-foreground"
+          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-gradient-to-r from-[#faf8fc] to-[#fdf6f4] border border-[#ede6f3]/40 rounded-full text-[13px] font-medium text-foreground"
         >
           <span className="w-1.5 h-1.5 bg-foreground rounded-full animate-pulse" />
           Journal &middot; Notes &middot; Dictation — All-in-one
