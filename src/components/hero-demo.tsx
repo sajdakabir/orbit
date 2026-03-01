@@ -120,7 +120,7 @@ export default function HeroDemo() {
       transition={{ duration: 0.8, delay: 0.4 }}
       className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-[0_4px_40px_rgba(0,0,0,0.15)]"
     >
-      <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1a1a3e] to-[#0c3547]">
+      <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-[#0a2028] via-[#112a33] to-[#132f38]">
 
         {/* macOS Menu bar */}
         <div className="absolute top-0 inset-x-0 h-7 bg-white/10 backdrop-blur-xl flex items-center px-4 z-10 border-b border-white/10">
