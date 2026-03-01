@@ -153,37 +153,37 @@ export default function HeroDemo() {
         </div>
 
         {/* Dia window - floating on desktop */}
-        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-white/[0.08] backdrop-blur-3xl rounded-xl border border-white/[0.15] shadow-[0_8px_40px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
+        <div className="absolute top-10 left-[15%] right-[15%] bottom-16 bg-white/[0.08] backdrop-blur-3xl rounded-xl border border-white/[0.15] shadow-[0_8px_40px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
           {/* Dia toolbar */}
-          <div className="h-10 bg-white/[0.06] backdrop-blur-sm flex items-center px-3.5 gap-3 border-b border-white/[0.1]">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <div className="h-7 bg-white/[0.06] backdrop-blur-sm flex items-center px-2.5 gap-2 border-b border-white/[0.1]">
+            <div className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+              <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
+              <span className="w-2 h-2 rounded-full bg-[#28c840]" />
             </div>
-            <div className="flex items-center gap-2 ml-1">
-              <svg className="w-3 h-3 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
-              <svg className="w-3 h-3 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+            <div className="flex items-center gap-1.5 ml-0.5">
+              <svg className="w-2.5 h-2.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+              <svg className="w-2.5 h-2.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
             </div>
-            <span className="text-[11px] text-white/60 ml-auto mr-auto">Dia</span>
-            <span className="text-[10px] text-white/30">Personalization</span>
+            <span className="text-[9px] text-white/60 ml-auto mr-auto">Dia</span>
+            <span className="text-[8px] text-white/30">Personalization</span>
           </div>
 
           {/* Dia content - centered layout */}
-          <div className="flex flex-col items-center justify-center h-[calc(100%-40px)] px-8">
+          <div className="flex flex-col items-center justify-center h-[calc(100%-28px)] px-6">
             {/* Dia logo */}
-            <div className="w-10 h-10 rounded-xl overflow-hidden mb-8">
+            <div className="w-7 h-7 rounded-lg overflow-hidden mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icon/dia.png" alt="Dia" className="w-full h-full object-cover" />
             </div>
 
             {/* Search input */}
-            <div className="w-full max-w-[420px] bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl px-4 py-3 shadow-[0_2px_16px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.04)]">
-              <div className="flex items-center gap-2.5 min-h-[28px]">
+            <div className="w-full max-w-[320px] bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-xl px-3 py-2 shadow-[0_2px_16px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.04)]">
+              <div className="flex items-center gap-2 min-h-[20px]">
                 {phase === "idle" && (
                   <>
-                    <svg className="w-4 h-4 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
-                    <span className="text-[13px] text-white/30">
+                    <svg className="w-3 h-3 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[11px] text-white/30">
                       Search the web...
                       <span className="animate-pulse">|</span>
                     </span>
@@ -191,8 +191,8 @@ export default function HeroDemo() {
                 )}
                 {phase === "keyPress" && (
                   <>
-                    <svg className="w-4 h-4 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
-                    <span className="text-[13px] text-white/30">
+                    <svg className="w-3 h-3 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[11px] text-white/30">
                       Search the web...
                       <span className="animate-pulse">|</span>
                     </span>
@@ -200,8 +200,8 @@ export default function HeroDemo() {
                 )}
                 {(phase === "listening" || phase === "done") && typedText && (
                   <>
-                    <svg className="w-4 h-4 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
-                    <span className="text-[13px] text-white/90">
+                    <svg className="w-3 h-3 text-white/30 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+                    <span className="text-[11px] text-white/90">
                       {typedText}
                       {phase === "listening" && (
                         <span className="animate-pulse">|</span>
@@ -210,28 +210,28 @@ export default function HeroDemo() {
                   </>
                 )}
               </div>
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-white/25 flex items-center gap-1">
-                    <span className="text-[13px]">+</span> Add tabs or files
+              <div className="flex items-center justify-between mt-1.5 pt-1.5 border-t border-white/10">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[9px] text-white/25 flex items-center gap-0.5">
+                    <span className="text-[10px]">+</span> Add tabs or files
                   </span>
-                  <span className="text-white/25 text-[11px]">···</span>
+                  <span className="text-white/25 text-[9px]">···</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" /></svg>
-                  <svg className="w-3.5 h-3.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+                <div className="flex items-center gap-1.5">
+                  <svg className="w-2.5 h-2.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" /><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8" /></svg>
+                  <svg className="w-2.5 h-2.5 text-white/25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                 </div>
               </div>
             </div>
 
             {/* Action pills */}
-            <div className="flex items-center gap-3 mt-5">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[11px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
-                <span className="text-[12px]">✦</span> Skills
-                <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
+            <div className="flex items-center gap-2 mt-3">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[9px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
+                <span className="text-[10px]">✦</span> Skills
+                <svg className="w-2 h-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[11px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
-                <span className="text-[12px]">🎓</span> Learn Skills
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[9px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
+                <span className="text-[10px]">🎓</span> Learn Skills
               </span>
             </div>
           </div>
