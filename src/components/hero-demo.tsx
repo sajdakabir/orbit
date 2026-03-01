@@ -122,6 +122,18 @@ export default function HeroDemo() {
     >
       <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-[#0a2028] via-[#112a33] to-[#132f38]">
 
+        {/* Gradient orbs — wallpaper-like ambient glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Top-right warm accent */}
+          <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[70%] rounded-full bg-[radial-gradient(ellipse_at_center,#1a3a4a_0%,transparent_70%)] opacity-80" />
+          {/* Bottom-left cool accent */}
+          <div className="absolute -bottom-[15%] -left-[10%] w-[50%] h-[60%] rounded-full bg-[radial-gradient(ellipse_at_center,#0f2e3a_0%,transparent_70%)] opacity-70" />
+          {/* Center subtle teal glow */}
+          <div className="absolute top-[30%] left-[40%] w-[40%] h-[50%] rounded-full bg-[radial-gradient(ellipse_at_center,#164050_0%,transparent_65%)] opacity-50" />
+          {/* Subtle mesh noise overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/[0.02]" />
+        </div>
+
         {/* macOS Menu bar */}
         <div className="absolute top-0 inset-x-0 h-7 bg-white/10 backdrop-blur-xl flex items-center px-4 z-10 border-b border-white/10">
           <svg className="w-3.5 h-3.5 text-white/80" viewBox="0 0 24 24" fill="currentColor">
@@ -141,9 +153,9 @@ export default function HeroDemo() {
         </div>
 
         {/* Dia window - floating on desktop */}
-        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-white/15 backdrop-blur-2xl rounded-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.2)] overflow-hidden">
+        <div className="absolute top-10 left-[8%] right-[8%] bottom-24 bg-white/[0.08] backdrop-blur-3xl rounded-xl border border-white/[0.15] shadow-[0_8px_40px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
           {/* Dia toolbar */}
-          <div className="h-10 bg-white/10 backdrop-blur-sm flex items-center px-3.5 gap-3 border-b border-white/15">
+          <div className="h-10 bg-white/[0.06] backdrop-blur-sm flex items-center px-3.5 gap-3 border-b border-white/[0.1]">
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
@@ -166,7 +178,7 @@ export default function HeroDemo() {
             </div>
 
             {/* Search input */}
-            <div className="w-full max-w-[420px] bg-white/10 border border-white/15 rounded-2xl px-4 py-3">
+            <div className="w-full max-w-[420px] bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl px-4 py-3 shadow-[0_2px_16px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.04)]">
               <div className="flex items-center gap-2.5 min-h-[28px]">
                 {phase === "idle" && (
                   <>
@@ -214,11 +226,11 @@ export default function HeroDemo() {
 
             {/* Action pills */}
             <div className="flex items-center gap-3 mt-5">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/10 border border-white/15 rounded-full text-[11px] text-white/40">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[11px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
                 <span className="text-[12px]">✦</span> Skills
                 <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/10 border border-white/15 rounded-full text-[11px] text-white/40">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/[0.06] backdrop-blur-lg border border-white/[0.1] rounded-full text-[11px] text-white/40 shadow-[0_1px_8px_rgba(0,0,0,0.1)]">
                 <span className="text-[12px]">🎓</span> Learn Skills
               </span>
             </div>
