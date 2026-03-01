@@ -20,13 +20,19 @@ function StarsChart() {
       className="w-full h-full"
       preserveAspectRatio="xMidYMid meet"
     >
+      <defs>
+        <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#0d262e" />
+          <stop offset="100%" stopColor="#ede6f3" />
+        </linearGradient>
+      </defs>
       {lines.map((d, i) => (
         <path
           key={i}
           d={d}
-          stroke="currentColor"
+          stroke="url(#lineGrad)"
           strokeWidth={1}
-          opacity={0.06 + i * 0.025}
+          opacity={0.08 + i * 0.03}
         />
       ))}
     </svg>
@@ -56,6 +62,13 @@ function ContributorsGrid() {
       className="w-full h-full"
       preserveAspectRatio="xMidYMid meet"
     >
+      <defs>
+        <linearGradient id="gridGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#0d262e" />
+          <stop offset="60%" stopColor="#8b7fa8" />
+          <stop offset="100%" stopColor="#ede6f3" />
+        </linearGradient>
+      </defs>
       {cells.map(({ row, col, opacity }, i) => (
         <rect
           key={i}
@@ -64,7 +77,7 @@ function ContributorsGrid() {
           width={8}
           height={8}
           rx={2}
-          fill="currentColor"
+          fill="url(#gridGrad)"
           opacity={opacity}
         />
       ))}
@@ -89,6 +102,12 @@ function MonthlyDevsChart() {
       className="w-full h-full"
       preserveAspectRatio="xMidYMid meet"
     >
+      <defs>
+        <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stopColor="#ede6f3" />
+          <stop offset="100%" stopColor="#0d262e" />
+        </linearGradient>
+      </defs>
       {bars.map(({ x, height }, i) => (
         <rect
           key={i}
@@ -96,8 +115,8 @@ function MonthlyDevsChart() {
           y={160 - height}
           width={4}
           height={height}
-          fill="currentColor"
-          opacity={0.06 + (height / 160) * 0.14}
+          fill="url(#barGrad)"
+          opacity={0.08 + (height / 160) * 0.18}
         />
       ))}
     </svg>
@@ -128,7 +147,10 @@ export default function OpenSourceStats() {
 
   return (
     <section className="relative py-24 overflow-hidden">
-      <div className="px-6 md:px-12">
+      {/* Subtle radial glow behind section */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,#ede6f3_0%,transparent_70%)] opacity-[0.15] pointer-events-none" />
+
+      <div className="relative px-6 md:px-12">
         {/* Header */}
         <div className="text-center mb-16">
           <motion.h2
@@ -136,7 +158,7 @@ export default function OpenSourceStats() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-[family-name:var(--font-manrope)] text-xl sm:text-2xl md:text-3xl font-normal tracking-[-0.02em] leading-[1.3] mb-6 text-foreground"
+            className="font-[family-name:var(--font-manrope)] text-xl sm:text-2xl md:text-3xl font-normal tracking-[-0.02em] leading-[1.3] mb-6 bg-gradient-to-r from-foreground via-foreground to-[#64748b] bg-clip-text text-transparent"
           >
             Your voice, everywhere you type
           </motion.h2>
@@ -148,11 +170,11 @@ export default function OpenSourceStats() {
             className="text-sm sm:text-base text-muted max-w-[680px] mx-auto leading-relaxed"
           >
             <span className="text-foreground font-medium">[*]</span> With{" "}
-            <span className="text-foreground font-bold">3x</span> faster input
+            <span className="font-bold bg-gradient-to-r from-foreground to-[#4a6670] bg-clip-text text-transparent">3x</span> faster input
             than typing, support for{" "}
-            <span className="text-foreground font-bold">100+</span> languages,
+            <span className="font-bold bg-gradient-to-r from-foreground to-[#4a6670] bg-clip-text text-transparent">100+</span> languages,
             and seamless dictation across every app—Orbit is trusted by over{" "}
-            <span className="text-foreground font-bold">50K</span> users to
+            <span className="font-bold bg-gradient-to-r from-foreground to-[#4a6670] bg-clip-text text-transparent">50K</span> users to
             turn their voice into perfectly formatted text.
           </motion.p>
         </div>
@@ -173,7 +195,7 @@ export default function OpenSourceStats() {
               {/* Caption */}
               <p className="text-xs text-muted font-mono tracking-wide">
                 {stat.figure}{" "}
-                <span className="text-foreground font-bold text-sm">
+                <span className="font-bold text-sm bg-gradient-to-r from-foreground to-[#4a6670] bg-clip-text text-transparent">
                   {stat.value}
                 </span>{" "}
                 {stat.label}

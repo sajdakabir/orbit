@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="relative overflow-hidden">
       {/* Textured background */}
       <div className="max-w-[1280px] mx-auto">
-        <div className="relative bg-[#e8ebe4] rounded-t-2xl mx-4 sm:mx-6 md:mx-0 overflow-hidden">
+        <div className="relative bg-[#EEF1F0] mx-0 overflow-hidden">
           {/* Noise texture overlay */}
           <div
             className="absolute inset-0 opacity-[0.12] pointer-events-none"
@@ -33,7 +33,7 @@ export default function Footer() {
             </div>
 
             {/* Bottom bar */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-foreground/[0.06]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-[#E9EFF2]">
               {/* Copyright */}
               <p className="text-xs text-muted">
                 Orbit &middot; {new Date().getFullYear()} All Rights Reserved

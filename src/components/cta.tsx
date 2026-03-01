@@ -60,9 +60,9 @@ export default function Cta() {
       </div>
 
       {/* Bottom abstract light area */}
-      <div className="relative h-[300px] sm:h-[360px] bg-[#e8ebe4] rounded-t-2xl overflow-hidden mx-4 sm:mx-6 md:mx-12">
+      <div className="relative h-[300px] sm:h-[360px] bg-[#EEF1F0] rounded-t-2xl overflow-hidden mx-0">
         {/* Top fade from white into card */}
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white via-[#F6F8FA] to-transparent z-10 pointer-events-none" />
 
         {/* Floating abstract elements */}
         <div className="absolute inset-0 flex items-center justify-center">
@@ -82,17 +82,17 @@ export default function Cta() {
           </div>
 
           {/* Floating code-like boxes */}
-          <div className="absolute top-[35%] left-[10%] border border-border rounded-lg px-5 py-3 bg-white/60">
+          <div className="absolute top-[35%] left-[10%] border border-[#E9EFF2] rounded-lg px-5 py-3 bg-[#F6F8FA]/80">
             <p className="text-dim font-mono text-xs">
               <span className="text-dim/50 mr-1">✦</span> voice.transcribe()
             </p>
           </div>
-          <div className="absolute top-[55%] right-[12%] border border-border rounded-lg px-5 py-3 bg-white/60">
+          <div className="absolute top-[55%] right-[12%] border border-[#E9EFF2] rounded-lg px-5 py-3 bg-[#F6F8FA]/80">
             <p className="text-dim font-mono text-xs">
               <span className="text-dim/50 mr-1">{">"}</span> formatting...
             </p>
           </div>
-          <div className="absolute top-[70%] left-[30%] border border-border rounded-lg px-4 py-2.5 bg-white/60">
+          <div className="absolute top-[70%] left-[30%] border border-[#E9EFF2] rounded-lg px-4 py-2.5 bg-[#F6F8FA]/80">
             <p className="text-dim/70 font-mono text-[11px]">
               output → ready
             </p>
