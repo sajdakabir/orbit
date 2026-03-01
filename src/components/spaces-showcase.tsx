@@ -251,7 +251,7 @@ export default function SpacesShowcase() {
           </div>
 
           {/* ── Descriptions Container ──────────────────── */}
-          <div className="relative mt-10" style={{ minHeight: "100px" }}>
+          <div className="relative mt-10" style={{ minHeight: "130px" }}>
             {/* First descriptions */}
             <motion.div
               className="absolute inset-x-0 top-0"
@@ -297,9 +297,10 @@ export default function SpacesShowcase() {
               className="absolute inset-x-0 top-0"
               style={{ opacity: secondDescOpacity }}
             >
-              <div className="flex flex-col lg:flex-row items-start lg:items-end gap-8">
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="text-xs text-dim">Designed for</span>
+              <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] items-center gap-6 lg:gap-10">
+                {/* Left logos */}
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-dim whitespace-nowrap">Designed for</span>
                   <div className="flex items-center gap-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/icon/chatgpt.svg" alt="ChatGPT" className="w-6 h-6 rounded" />
@@ -309,18 +310,22 @@ export default function SpacesShowcase() {
                     <img src="/icon/discord.svg" alt="Discord" className="w-6 h-6 rounded" />
                   </div>
                 </div>
-                <div className="flex-1 max-w-[520px]">
+
+                {/* Center title + description */}
+                <div className="text-center">
                   <h3 className="font-[family-name:var(--font-manrope)] text-[20px] font-normal text-foreground mb-2 tracking-[-0.01em]">
                     Prompt at the speed of thought
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed">
+                  <p className="text-sm text-muted leading-relaxed max-w-[480px] mx-auto">
                     Orbit turns natural, rambling speech into precise prompts —
                     letting you build faster without stopping to edit your
                     thoughts.
                   </p>
                 </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <span className="text-xs text-dim">Designed for</span>
+
+                {/* Right logos */}
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-dim whitespace-nowrap">Designed for</span>
                   <div className="flex items-center gap-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/icon/gmail.svg" alt="Gmail" className="w-6 h-6 rounded" />
