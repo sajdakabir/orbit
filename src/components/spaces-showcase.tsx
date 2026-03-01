@@ -86,7 +86,7 @@ function EditorCode() {
 /* ── Main section ────────────────────────────────────────── */
 export default function SpacesShowcase() {
   return (
-    <section id="spaces" className="relative py-24 overflow-hidden">
+    <section id="spaces" className="relative py-20 overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6">
         {/* ── Preview Cards ─────────────────────────────── */}
         <motion.div
@@ -94,7 +94,7 @@ export default function SpacesShowcase() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="grid grid-cols-1 lg:grid-cols-5 gap-5"
+          className="grid grid-cols-1 lg:grid-cols-5 gap-4"
         >
           {/* Left Card — Code Editor + Voice Overlay */}
           <div className="lg:col-span-3 relative bg-[#111111] rounded-2xl overflow-hidden min-h-[380px]">
@@ -128,8 +128,8 @@ export default function SpacesShowcase() {
           {/* Right Card — Voice Agent Interface */}
           <div className="lg:col-span-2 relative bg-[#111111] rounded-2xl overflow-hidden min-h-[380px] flex flex-col justify-center px-6">
             {/* Welcome box */}
-            <div className="border border-white/10 rounded-lg p-5 mb-4">
-              <p className="text-white/80 font-mono text-sm leading-relaxed">
+            <div className="border border-white/10 rounded-lg p-4 mb-3">
+              <p className="text-white/80 font-mono text-[13px] leading-relaxed">
                 <span className="text-white/40 mr-1">✦</span> Welcome to{" "}
                 <span className="text-white font-medium">Orbit</span>{" "}
                 <span className="text-white/40">voice assistant</span>
@@ -137,8 +137,8 @@ export default function SpacesShowcase() {
             </div>
 
             {/* Prompt box */}
-            <div className="border border-white/10 rounded-lg px-5 py-4">
-              <p className="text-white/25 font-mono text-sm">
+            <div className="border border-white/10 rounded-lg px-4 py-3">
+              <p className="text-white/25 font-mono text-[13px]">
                 {">"} Start speaking...
               </p>
             </div>
@@ -151,7 +151,7 @@ export default function SpacesShowcase() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-16 mt-14"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-10"
         >
           {/* Left — Accuracy */}
           <div>
@@ -195,7 +195,7 @@ export default function SpacesShowcase() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="flex items-center justify-center gap-2.5 mt-16 text-sm text-muted"
+          className="flex items-center justify-center gap-2.5 mt-12 text-sm text-muted"
         >
           Hold
           <kbd className="inline-flex items-center justify-center px-3.5 py-1.5 bg-foreground text-bg text-xs font-medium rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.15)]">

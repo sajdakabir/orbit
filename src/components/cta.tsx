@@ -60,7 +60,7 @@ export default function Cta() {
       </div>
 
       {/* Bottom abstract light area */}
-      <div className="relative h-[300px] sm:h-[360px] bg-bg-card rounded-t-2xl overflow-hidden mx-4 sm:mx-6 md:mx-12">
+      <div className="relative h-[300px] sm:h-[360px] bg-[#e8ebe4] rounded-t-2xl overflow-hidden mx-4 sm:mx-6 md:mx-12">
         {/* Top fade from white into card */}
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
 
@@ -100,7 +100,7 @@ export default function Cta() {
         </div>
 
         {/* Bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#e8ebe4] to-transparent pointer-events-none" />
       </div>
     </section>
   );
