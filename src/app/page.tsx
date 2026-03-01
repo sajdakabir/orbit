@@ -8,6 +8,8 @@ import ProductShowcase from "@/components/product-showcase";
 import Integrations from "@/components/integrations";
 import Bento from "@/components/bento";
 import Faq from "@/components/faq";
+import OpenSourceStats from "@/components/open-source-stats";
+import Testimonials from "@/components/testimonials";
 import Cta from "@/components/cta";
 import Footer from "@/components/footer";
 
@@ -16,15 +18,19 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <OpenSourceStats />
       <SpacesShowcase />
-      {/* <Logos /> */}
-      {/* <Features /> */}
-      {/* <ProductShowcase /> */}
-      {/* <HowItWorks /> */}
-      <Integrations />
-      {/* <Bento /> */}
-      {/* <Faq /> */}
-      <Cta />
+      <div className="max-w-[1280px] mx-auto border-x border-border">
+        {/* <Logos /> */}
+        {/* <Features /> */}
+        {/* <ProductShowcase /> */}
+        {/* <HowItWorks /> */}
+        <Integrations />
+        {/* <Bento /> */}
+        {/* <Faq /> */}
+        {/* <Testimonials /> */}
+        <Cta />
+      </div>
       <Footer />
     </>
   );

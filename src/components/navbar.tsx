@@ -14,27 +14,25 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-bg/80 backdrop-blur-xl border-b border-border-subtle"
-          : ""
-      }`}
-    >
-      <div className="max-w-[1120px] mx-auto px-6 h-16 flex items-center justify-between">
+    <nav className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4">
+      <div
+        className={`flex items-center justify-between w-full max-w-[720px] px-6 h-12 rounded-full border transition-all duration-500 ${
+          scrolled
+            ? "bg-white/40 backdrop-blur-2xl border-white/50 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
+            : "bg-transparent border-border-subtle"
+        }`}
+      >
         {/* Logo */}
         <a
           href="/"
-          className="flex items-center gap-2.5 font-bold text-lg tracking-tight"
+          className="flex items-center gap-2 font-bold text-[15px] tracking-tight text-foreground"
         >
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center">
-            <OrbitIcon width={28} height={26} />
-          </div>
+          <OrbitIcon width={20} height={18} />
           Orbit
         </a>
 
         {/* Links */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden md:flex items-center gap-6">
           {[
             { label: "Spaces", href: "#spaces" },
             { label: "Inbox", href: "/inbox" },
@@ -43,7 +41,7 @@ export default function Navbar() {
             <li key={item.label}>
               <a
                 href={item.href}
-                className="text-sm font-medium text-muted hover:text-foreground transition-colors"
+                className="text-sm text-muted hover:text-foreground transition-colors"
               >
                 {item.label}
               </a>
@@ -55,10 +53,10 @@ export default function Navbar() {
         <a
           href=""
           download
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-bg text-sm font-semibold rounded-full hover:opacity-90 hover:-translate-y-px transition-all"
+          className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-[#faf8fc] to-[#fdf6f4] border border-[#ede6f3]/40 text-foreground text-sm font-bold rounded-full hover:opacity-90 transition-all"
         >
           Download
-          <Download className="w-3.5 h-3.5" />
+          <Download className="w-3.5 h-3.5" strokeWidth={2.5} />
         </a>
       </div>
     </nav>
