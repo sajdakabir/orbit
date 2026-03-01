@@ -100,7 +100,7 @@ export default function Cta() {
         </div>
 
         {/* Bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#e8ebe4] to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#EEF1F0] to-transparent pointer-events-none" />
       </div>
     </section>
   );

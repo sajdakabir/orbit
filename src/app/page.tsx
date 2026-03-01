@@ -9,6 +9,7 @@ import Integrations from "@/components/integrations";
 import Bento from "@/components/bento";
 import Faq from "@/components/faq";
 import OpenSourceStats from "@/components/open-source-stats";
+import Testimonials from "@/components/testimonials";
 import Cta from "@/components/cta";
 import Footer from "@/components/footer";
 
@@ -16,10 +17,10 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <Hero />
+      <SpacesShowcase />
       <div className="max-w-[1280px] mx-auto border-x border-border">
-        <Hero />
         <OpenSourceStats />
-        <SpacesShowcase />
         {/* <Logos /> */}
         {/* <Features /> */}
         {/* <ProductShowcase /> */}
@@ -27,6 +28,7 @@ export default function Home() {
         <Integrations />
         {/* <Bento /> */}
         {/* <Faq /> */}
+        {/* <Testimonials /> */}
         <Cta />
       </div>
       <Footer />
