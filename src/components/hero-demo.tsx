@@ -52,7 +52,7 @@ function DockIcon({ app }: { app: { name: string; image: string; isOpen: boolean
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={`w-11 h-11 sm:w-12 sm:h-12 ${isBin ? "" : "rounded-xl"} overflow-hidden ${isBin ? "" : "shadow-md"}`}>
+      <div className={`w-8 h-8 sm:w-9 sm:h-9 ${isBin ? "" : "rounded-lg"} overflow-hidden ${isBin ? "" : "shadow-md"}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={app.image}
@@ -118,7 +118,7 @@ export default function HeroDemo() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_8px_60px_rgba(0,0,0,0.3)]"
+      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/[0.1] shadow-[0_8px_60px_rgba(0,0,0,0.2),0_0_0_1px_rgba(255,255,255,0.04)]"
     >
       <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-[#0a2028] via-[#112a33] to-[#132f38]">
 
@@ -135,7 +135,7 @@ export default function HeroDemo() {
         </div>
 
         {/* macOS Menu bar */}
-        <div className="absolute top-0 inset-x-0 h-7 bg-white/10 backdrop-blur-xl flex items-center px-4 z-10 border-b border-white/10">
+        <div className="absolute top-0 inset-x-0 h-7 bg-white/[0.06] backdrop-blur-2xl flex items-center px-4 z-10 border-b border-white/[0.08]">
           <svg className="w-3.5 h-3.5 text-white/80" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
           </svg>
@@ -239,12 +239,12 @@ export default function HeroDemo() {
 
         {/* macOS Dock */}
         <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20">
-          <div className="flex items-end gap-1.5 px-3 py-1.5 bg-white/15 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.2)]">
+          <div className="flex items-end gap-1 px-2.5 py-1 bg-white/[0.1] backdrop-blur-3xl border border-white/[0.15] rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.05)]">
             {dockApps.map((app) => (
               <DockIcon key={app.name} app={app} />
             ))}
             {/* Dock divider */}
-            <div className="w-px h-10 bg-white/15 mx-1" />
+            <div className="w-px h-7 bg-white/15 mx-0.5" />
             {dockAppsRight.map((app) => (
               <DockIcon key={app.name} app={app} />
             ))}
