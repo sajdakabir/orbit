@@ -59,22 +59,48 @@ export default function Cta() {
         </motion.div>
       </div>
 
-      {/* Bottom image/texture area */}
-      <div className="relative h-[300px] sm:h-[360px] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(241,243,246,0.6) 20%, rgba(226,233,243,0.4) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            backgroundSize: "200px 200px",
-          }}
-        />
+      {/* Bottom abstract light area */}
+      <div className="relative h-[300px] sm:h-[360px] bg-bg-card rounded-t-2xl overflow-hidden mx-4 sm:mx-6 md:mx-12">
+        {/* Top fade from white into card */}
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+
+        {/* Floating abstract elements */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* Grid of subtle lines */}
+          <div className="absolute inset-0 opacity-[0.35]">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute h-px bg-border"
+                style={{
+                  top: `${12 + i * 8}%`,
+                  left: "8%",
+                  right: "8%",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Floating code-like boxes */}
+          <div className="absolute top-[35%] left-[10%] border border-border rounded-lg px-5 py-3 bg-white/60">
+            <p className="text-dim font-mono text-xs">
+              <span className="text-dim/50 mr-1">✦</span> voice.transcribe()
+            </p>
+          </div>
+          <div className="absolute top-[55%] right-[12%] border border-border rounded-lg px-5 py-3 bg-white/60">
+            <p className="text-dim font-mono text-xs">
+              <span className="text-dim/50 mr-1">{">"}</span> formatting...
+            </p>
+          </div>
+          <div className="absolute top-[70%] left-[30%] border border-border rounded-lg px-4 py-2.5 bg-white/60">
+            <p className="text-dim/70 font-mono text-[11px]">
+              output → ready
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-bg-card to-transparent pointer-events-none" />
       </div>
     </section>
   );
