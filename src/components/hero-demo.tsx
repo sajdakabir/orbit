@@ -118,7 +118,7 @@ export default function HeroDemo() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-[0_4px_40px_rgba(0,0,0,0.15)]"
+      className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden border border-white/[0.08] shadow-[0_8px_60px_rgba(0,0,0,0.3)]"
     >
       <div className="w-full aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-[#0a2028] via-[#112a33] to-[#132f38]">
 
