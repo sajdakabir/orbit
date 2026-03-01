@@ -25,7 +25,7 @@ function DotMatrixText({ text }: { text: string }) {
 export default function Integrations() {
   return (
     <section id="integrations" className="relative">
-      <div className="max-w-[1280px] mx-auto px-6">
+      <div className="px-6 md:px-12">
         {/* Main content area */}
         <div className="py-24 md:py-32">
           <div className="md:ml-[35%]">

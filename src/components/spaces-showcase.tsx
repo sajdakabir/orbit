@@ -17,7 +17,7 @@ export default function SpacesShowcase() {
 
   return (
     <section id="spaces" className="relative py-24 overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-6">
+      <div className="px-6 md:px-12">
 
         {/* Template Chips */}
         <motion.div
