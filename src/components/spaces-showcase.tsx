@@ -91,14 +91,14 @@ export default function SpacesShowcase() {
   });
 
   /* First row — fade out */
-  const firstOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
-  const firstDescOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
+  const firstOpacity = useTransform(scrollYProgress, [0, 0.25, 0.42], [1, 1, 0]);
+  const firstDescOpacity = useTransform(scrollYProgress, [0, 0.25, 0.42], [1, 1, 0]);
 
-  /* Second row — slide in from sides */
-  const secondOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-  const leftX = useTransform(scrollYProgress, [0.4, 0.65], [-100, 0]);
-  const rightX = useTransform(scrollYProgress, [0.4, 0.65], [100, 0]);
-  const secondDescOpacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1]);
+  /* Second row — slide in from sides (starts after first row is gone) */
+  const secondOpacity = useTransform(scrollYProgress, [0.45, 0.6], [0, 1]);
+  const leftX = useTransform(scrollYProgress, [0.45, 0.65], [-100, 0]);
+  const rightX = useTransform(scrollYProgress, [0.45, 0.65], [100, 0]);
+  const secondDescOpacity = useTransform(scrollYProgress, [0.48, 0.65], [0, 1]);
 
   return (
     <section
