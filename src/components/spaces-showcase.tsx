@@ -95,11 +95,11 @@ export default function SpacesShowcase() {
   const firstScale = useTransform(scrollYProgress, [0, 0.25, 0.48], [1, 1, 0.97]);
   const firstDescOpacity = useTransform(scrollYProgress, [0, 0.25, 0.48], [1, 1, 0]);
 
-  /* Second row — crossfade in from sides */
-  const secondOpacity = useTransform(scrollYProgress, [0.42, 0.62], [0, 1]);
-  const leftX = useTransform(scrollYProgress, [0.42, 0.65], [-60, 0]);
-  const rightX = useTransform(scrollYProgress, [0.42, 0.65], [60, 0]);
-  const secondDescOpacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1]);
+  /* Second row — slide in first, then fade in once in position */
+  const secondOpacity = useTransform(scrollYProgress, [0.55, 0.68], [0, 1]);
+  const leftX = useTransform(scrollYProgress, [0.45, 0.68], [-60, 0]);
+  const rightX = useTransform(scrollYProgress, [0.45, 0.68], [60, 0]);
+  const secondDescOpacity = useTransform(scrollYProgress, [0.58, 0.7], [0, 1]);
 
   return (
     <section
