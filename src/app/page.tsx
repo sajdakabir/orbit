@@ -31,7 +31,6 @@ export default function Home() {
         {/* <Testimonials /> */}
         <Cta />
       </div>
-      <Footer />
     </>
   );
 }

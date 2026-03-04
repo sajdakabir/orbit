@@ -6,35 +6,6 @@ export default function Footer() {
     <footer className="relative overflow-hidden">
       <div className="max-w-[1280px] mx-auto">
         <div className="relative bg-[#112a33] mx-0 overflow-hidden">
-          {/* Subtle orbital rings background */}
-          <div className="absolute inset-0 pointer-events-none">
-            <svg
-              viewBox="0 0 800 300"
-              fill="none"
-              className="w-full h-full"
-              preserveAspectRatio="xMidYMid slice"
-            >
-              {Array.from({ length: 8 }, (_, i) => {
-                const rx = 120 + i * 40;
-                const ry = 60 + i * 25;
-                const rotation = -15 + i * 4;
-                const opacity = 0.02 + i * 0.008;
-                return (
-                  <ellipse
-                    key={i}
-                    cx={400}
-                    cy={200}
-                    rx={rx}
-                    ry={ry}
-                    transform={`rotate(${rotation} 400 200)`}
-                    stroke="white"
-                    strokeWidth={0.6}
-                    opacity={opacity}
-                  />
-                );
-              })}
-            </svg>
-          </div>
 
           {/* Main footer content */}
           <div className="relative px-8 md:px-12 pt-16 pb-8">
