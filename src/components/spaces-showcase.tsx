@@ -90,15 +90,16 @@ export default function SpacesShowcase() {
     offset: ["start start", "end end"],
   });
 
-  /* First row — fade out */
-  const firstOpacity = useTransform(scrollYProgress, [0, 0.25, 0.42], [1, 1, 0]);
-  const firstDescOpacity = useTransform(scrollYProgress, [0, 0.25, 0.42], [1, 1, 0]);
+  /* First row — fade out with slight scale */
+  const firstOpacity = useTransform(scrollYProgress, [0, 0.25, 0.48], [1, 1, 0]);
+  const firstScale = useTransform(scrollYProgress, [0, 0.25, 0.48], [1, 1, 0.97]);
+  const firstDescOpacity = useTransform(scrollYProgress, [0, 0.25, 0.48], [1, 1, 0]);
 
-  /* Second row — slide in from sides (starts after first row is gone) */
-  const secondOpacity = useTransform(scrollYProgress, [0.45, 0.6], [0, 1]);
-  const leftX = useTransform(scrollYProgress, [0.45, 0.65], [-100, 0]);
-  const rightX = useTransform(scrollYProgress, [0.45, 0.65], [100, 0]);
-  const secondDescOpacity = useTransform(scrollYProgress, [0.48, 0.65], [0, 1]);
+  /* Second row — crossfade in from sides */
+  const secondOpacity = useTransform(scrollYProgress, [0.42, 0.62], [0, 1]);
+  const leftX = useTransform(scrollYProgress, [0.42, 0.65], [-60, 0]);
+  const rightX = useTransform(scrollYProgress, [0.42, 0.65], [60, 0]);
+  const secondDescOpacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1]);
 
   return (
     <section
@@ -112,7 +113,7 @@ export default function SpacesShowcase() {
           {/* ── Cards Container ─────────────────────────── */}
           <div className="relative">
             {/* First Row — Code Editor + Voice Agent (drives height) */}
-            <motion.div style={{ opacity: firstOpacity }}>
+            <motion.div style={{ opacity: firstOpacity, scale: firstScale }}>
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                 {/* Left Card — Code Editor */}
                 <div className="lg:col-span-3 relative bg-[#111111] rounded-2xl overflow-hidden min-h-[380px]">
