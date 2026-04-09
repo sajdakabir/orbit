@@ -51,8 +51,8 @@ export default function Cta() {
           transition={{ delay: 0.2 }}
         >
           <a
-            href=""
-            download
+            href="https://github.com/sajdakabir/orbit/releases/latest"
+
             className="inline-flex items-center gap-2 px-8 py-3.5 text-[15px] font-medium border border-border rounded-full hover:text-foreground hover:border-foreground transition-all"
           >
             Download for Mac
