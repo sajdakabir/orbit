@@ -1,0 +1,21 @@
+name: CI Controller
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'dev'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  run-tests:
+    uses: ./.github/workflows/test-runner.yml
+
+  build-check:
+    uses: ./.github/workflows/build-check.yml
+
+  native-build-check:
+    uses: ./.github/workflows/native-build-check.yml
+

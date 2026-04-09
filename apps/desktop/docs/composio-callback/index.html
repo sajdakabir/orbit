@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit – Connection Complete</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .card {
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+        }
+
+        .icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 36px;
+        }
+
+        .icon-success {
+            background: #052e16;
+            border: 2px solid #16a34a
+        }
+
+        .icon-error {
+            background: #2a0a0a;
+            border: 2px solid #dc2626
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: .5rem
+        }
+
+        p {
+            color: #a1a1aa;
+            font-size: .95rem;
+            line-height: 1.5;
+            margin-bottom: 2rem
+        }
+
+        .btn {
+            display: inline-block;
+            padding: .75rem 2rem;
+            border-radius: 10px;
+            font-size: .95rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity .15s;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity: .85
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #0a0a0a
+        }
+
+        .btn-secondary {
+            background: #262626;
+            color: #fafafa;
+            margin-top: .75rem
+        }
+
+        .hint {
+            color: #52525b;
+            font-size: .8rem;
+            margin-top: 1.5rem;
+            line-height: 1.4
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card" id="card">
+        <!-- filled by JS -->
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get('status') || 'success';
+        const connId = params.get('connected_account_id') || '';
+
+        // Build the deep-link URL for the desktop app
+        // orbit:// for production .dmg builds
+        const deepLink =
+            'orbit://composio/callback?status=' + encodeURIComponent(status) +
+            (connId ? '&connected_account_id=' + encodeURIComponent(connId) : '');
+
+        const card = document.getElementById('card');
+
+        if (status === 'success') {
+            card.innerHTML =
+                '<div class="icon icon-success">&#10003;</div>' +
+                '<h1>You\u2019re all set!</h1>' +
+                '<p>Your account has been connected successfully. Head back to Orbit to start using it.</p>' +
+                '<a id="open-btn" class="btn btn-primary" href="' + deepLink + '">Open Orbit</a>' +
+                '<p class="hint">If the app doesn\u2019t open automatically,<br>click the button above.</p>';
+        } else {
+            card.innerHTML =
+                '<div class="icon icon-error">&#10007;</div>' +
+                '<h1>Something went wrong</h1>' +
+                '<p>The connection could not be completed. Please try again from within Orbit.</p>' +
+                '<a class="btn btn-secondary" href="' + deepLink + '">Open Orbit</a>';
+        }
+
+        // Auto-attempt the deep link after a short delay
+        setTimeout(function () {
+            window.location.href = deepLink;
+        }, 800);
+    </script>
+</body>
+
+</html>
