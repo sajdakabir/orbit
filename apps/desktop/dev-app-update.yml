@@ -1,0 +1,6 @@
+owner: sajdakabir
+repo: orbit
+provider: s3
+bucket: dev-orbit-releases
+path: manual-test/
+region: us-west-2

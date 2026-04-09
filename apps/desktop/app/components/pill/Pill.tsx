@@ -1,0 +1,432 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { useSettingsStore } from '../../store/useSettingsStore'
+import {
+  useOnboardingStore,
+  ONBOARDING_CATEGORIES,
+} from '../../store/useOnboardingStore'
+import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip'
+import { X, StopSquare } from '@mynaui/icons-react'
+import { AudioBars } from './contents/AudioBars'
+import { PreviewAudioBars } from './contents/PreviewAudioBars'
+import { LoadingAnimation } from './contents/LoadingAnimation'
+import { useAudioStore } from '@/app/store/useAudioStore'
+import { TooltipButton } from './contents/TooltipButton'
+import { analytics, ANALYTICS_EVENTS } from '../analytics'
+import type {
+  RecordingStatePayload,
+  ProcessingStatePayload,
+} from '@/lib/types/ipc'
+import { OrbitMode } from '@/app/generated/orbit_pb'
+
+const globalStyles = `
+  html, body, #app {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* These styles are key to anchoring the pill to the bottom center */
+    /* of its transparent window, allowing it to expand upwards. */
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    pointer-events: none;
+
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      sans-serif;
+  }
+`
+
+const BAR_UPDATE_INTERVAL = 64
+
+// Color mapping for different recording modes
+const getAudioBarColor = (mode: OrbitMode | undefined): string => {
+  switch (mode) {
+    case OrbitMode.TRANSCRIBE:
+      return 'white'
+    case OrbitMode.EDIT:
+      return '#FFCF40'
+    default:
+      return 'white' // Default to white for transcribe mode
+  }
+}
+
+const Pill = () => {
+  // Get initial values from store using separate selectors to avoid infinite re-renders
+  const initialShowOrbitBarAlways = useSettingsStore(
+    state => state.showOrbitBarAlways,
+  )
+  const initialOnboardingCategory = useOnboardingStore(
+    state => state.onboardingCategory,
+  )
+  const initialOnboardingCompleted = useOnboardingStore(
+    state => state.onboardingCompleted,
+  )
+  const { startRecording, stopRecording } = useAudioStore()
+
+  const [isRecording, setIsRecording] = useState(false)
+  const [isManualRecording, setIsManualRecording] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  const [recordingMode, setRecordingMode] = useState<OrbitMode | undefined>()
+  const isManualRecordingRef = useRef(false)
+  const [showOrbitBarAlways, setShowOrbitBarAlways] = useState(
+    initialShowOrbitBarAlways,
+  )
+  const [onboardingCategory, setOnboardingCategory] = useState(
+    initialOnboardingCategory,
+  )
+  const [onboardingCompleted, setOnboardingCompleted] = useState(
+    initialOnboardingCompleted,
+  )
+  // Fixed size array of volume values to be used for the audio bars, size is 21
+  const [volumeHistory, setVolumeHistory] = useState<number[]>([])
+  const [lastVolumeUpdate, setLastVolumeUpdate] = useState(0)
+
+  // Hydrate onboarding state on mount from the database
+  useEffect(() => {
+    const hydrateOnboarding = async () => {
+      try {
+        const saved = await window.api.getOnboardingState?.()
+        if (saved?.onboardingCompleted) {
+          setOnboardingCompleted(true)
+          setOnboardingCategory(ONBOARDING_CATEGORIES.TRY_IT)
+        } else if (
+          saved?.onboardingStep !== undefined &&
+          saved.onboardingStep >= 7
+        ) {
+          // Step 7+ means TRY_IT category
+          setOnboardingCategory(ONBOARDING_CATEGORIES.TRY_IT)
+        }
+      } catch (error) {
+        console.error('[Pill] Failed to hydrate onboarding state:', error)
+      }
+    }
+    hydrateOnboarding()
+  }, [])
+
+  useEffect(() => {
+    // Listen for recording state changes from the main process
+    const unsubRecording = window.api.on(
+      'recording-state-update',
+      (state: RecordingStatePayload) => {
+        // Update recording state - this is for global hotkey triggered recording
+        setIsRecording(state.isRecording)
+        setRecordingMode(state.mode ?? recordingMode)
+
+        // Only track general recording analytics if it's not a manual recording
+        if (!isManualRecordingRef.current) {
+          const analyticsEvent = state.isRecording
+            ? ANALYTICS_EVENTS.RECORDING_STARTED
+            : ANALYTICS_EVENTS.RECORDING_COMPLETED
+          analytics.track(analyticsEvent, {
+            is_recording: state.isRecording,
+            mode: state.mode,
+          })
+        }
+
+        // If global recording stops, also stop manual recording
+        if (!state.isRecording) {
+          setIsManualRecording(false)
+          isManualRecordingRef.current = false
+          // Only clear volume history when recording stops
+          setVolumeHistory([])
+        }
+      },
+    )
+
+    // Listen for processing state changes from the main process
+    const unsubProcessing = window.api.on(
+      'processing-state-update',
+      (state: ProcessingStatePayload) => {
+        setIsProcessing(state.isProcessing)
+      },
+    )
+
+    // Listen for volume updates from the main process
+    const unsubVolume = window.api.on('volume-update', (vol: number) => {
+      // throttle the volume updates to 80ms
+      const now = Date.now()
+      if (now - lastVolumeUpdate < BAR_UPDATE_INTERVAL) {
+        return
+      }
+      const newVolumeHistory = [...volumeHistory, vol]
+      if (newVolumeHistory.length > 42) {
+        newVolumeHistory.shift()
+      }
+      setVolumeHistory(newVolumeHistory)
+      setLastVolumeUpdate(now)
+    })
+
+    // Listen for settings updates from the main process
+    const unsubSettings = window.api.on('settings-update', (settings: any) => {
+      // Update local state with the new setting
+      setShowOrbitBarAlways(settings.showOrbitBarAlways)
+    })
+
+    // Listen for onboarding updates from the main process
+    const unsubOnboarding = window.api.on(
+      'onboarding-update',
+      (onboarding: any) => {
+        setOnboardingCategory(onboarding.onboardingCategory)
+        setOnboardingCompleted(onboarding.onboardingCompleted)
+      },
+    )
+
+    // Listen for user auth updates from the main process
+    const unsubUserAuth = window.api.on('user-auth-update', (authUser: any) => {
+      if (authUser) {
+        analytics.identifyUser(
+          authUser.id,
+          {
+            user_id: authUser.id,
+            email: authUser.email,
+            name: authUser.name,
+            provider: authUser.provider,
+          },
+          authUser.provider,
+        )
+      } else {
+        // User logged out
+        analytics.resetUser()
+      }
+    })
+
+    // Cleanup listeners when the component unmounts
+    return () => {
+      unsubRecording()
+      unsubProcessing()
+      unsubVolume()
+      unsubSettings()
+      unsubOnboarding()
+      unsubUserAuth()
+    }
+  }, [volumeHistory, lastVolumeUpdate, recordingMode])
+
+  // Define dimensions for different states
+  const idleWidth = 36
+  const idleHeight = 8
+  const hoveredWidth = 84
+  const hoveredHeight = 32
+  const recordingWidth = 84
+  const recordingHeight = 32
+  const manualRecordingWidth = 112
+  const manualRecordingHeight = 32
+  const processingWidth = 84
+  const processingHeight = 32
+
+  // Determine current state
+  const anyRecording = isRecording || isManualRecording
+  // Previously the pill only showed after onboarding (TRY_IT or completed).
+  // Allow showing the pill when the user has enabled `showOrbitBarAlways`
+  // even if onboarding hasn't been completed — this makes the setting
+  // behave as users expect when they toggle "Show Orbit bar at all times".
+  const shouldShow =
+    anyRecording || isProcessing || showOrbitBarAlways || isHovered
+
+  // Calculate dimensions based on state
+  let currentWidth = idleWidth
+  let currentHeight = idleHeight
+  let backgroundColor = 'rgba(128, 128, 128, 0.65)'
+
+  if (isManualRecording) {
+    currentWidth = manualRecordingWidth
+    currentHeight = manualRecordingHeight
+    backgroundColor = '#000000'
+  } else if (anyRecording) {
+    currentWidth = recordingWidth
+    currentHeight = recordingHeight
+    backgroundColor = '#000000'
+  } else if (isProcessing) {
+    currentWidth = processingWidth
+    currentHeight = processingHeight
+    backgroundColor = '#000000'
+  } else if (isHovered) {
+    currentWidth = hoveredWidth
+    currentHeight = hoveredHeight
+    backgroundColor = '#404040'
+  }
+
+  // A single, unified style for the pill. Its properties will be
+  // smoothly transitioned by CSS.
+  const pillStyle: React.CSSProperties = {
+    // Flex properties to center the content inside
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    // Dynamic styles that change based on the state
+    width: `${currentWidth}px`,
+    height: `${currentHeight}px`,
+    backgroundColor,
+    border: '1px solid #A9A9A9',
+
+    // Show/hide animation using opacity and scale instead of display none/flex
+    opacity: shouldShow ? 1 : 0,
+    transform: shouldShow ? 'scale(1)' : 'scale(0.8)',
+    transformOrigin: 'bottom center',
+    visibility: shouldShow ? 'visible' : 'hidden',
+
+    // Static styles
+    borderRadius: '21px',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+
+    // Enable pointer events for this element
+    pointerEvents: 'auto',
+    cursor: isHovered && !anyRecording ? 'pointer' : 'default',
+
+    // The transition property makes the magic happen!
+    // We animate width, height, color, opacity, and scale changes over 0.3 seconds.
+    transition:
+      'width 0.3s ease, height 0.3s ease, background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease',
+  }
+
+  // Handle mouse enter - enable mouse events for the pill window and set hover state
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    if (window.api?.setPillMouseEvents) {
+      window.api.setPillMouseEvents(false) // Enable mouse events
+    }
+  }
+
+  // Handle mouse leave - disable mouse events (with forwarding) for the pill window and clear hover state
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    if (window.api?.setPillMouseEvents) {
+      window.api.setPillMouseEvents(true, { forward: true }) // Disable mouse events but keep forwarding
+    }
+  }
+
+  // Handle click to start manual recording
+  const handleClick = () => {
+    if (isHovered && !anyRecording) {
+      setIsManualRecording(true)
+      isManualRecordingRef.current = true
+      // Trigger recording start via IPC
+      startRecording()
+
+      analytics.track(ANALYTICS_EVENTS.MANUAL_RECORDING_STARTED, {
+        is_recording: true,
+      })
+    }
+  }
+
+  // Handle cancel recording
+  const handleCancel = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsManualRecording(false)
+    stopRecording()
+
+    analytics.track(ANALYTICS_EVENTS.MANUAL_RECORDING_ABANDONED, {
+      is_recording: false,
+    })
+  }
+
+  // Handle stop recording
+  const handleStop = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsManualRecording(false)
+    stopRecording()
+
+    analytics.track(ANALYTICS_EVENTS.MANUAL_RECORDING_COMPLETED, {
+      is_recording: false,
+    })
+  }
+
+  const renderContent = () => {
+    if (isManualRecording) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'space-between',
+            padding: '0 8px',
+          }}
+        >
+          <TooltipButton
+            onClick={handleCancel}
+            icon={<X width={14} height={14} color="white" />}
+            tooltip="Cancel"
+          />
+
+          <AudioBars
+            volumeHistory={volumeHistory}
+            barColor={getAudioBarColor(recordingMode)}
+          />
+
+          <TooltipButton
+            onClick={handleStop}
+            icon={<StopSquare width={14} height={14} color="#ef4444" />}
+            tooltip="Stop and paste"
+          />
+        </div>
+      )
+    }
+
+    if (anyRecording) {
+      return (
+        <AudioBars
+          volumeHistory={volumeHistory}
+          barColor={getAudioBarColor(recordingMode)}
+        />
+      )
+    }
+
+    if (isProcessing) {
+      return <LoadingAnimation color={getAudioBarColor(recordingMode)} />
+    }
+
+    if (isHovered) {
+      return <PreviewAudioBars />
+    }
+
+    return null
+  }
+
+  return (
+    <>
+      <style>{globalStyles}</style>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            style={pillStyle}
+            onClick={handleClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {renderContent()}
+          </div>
+        </TooltipTrigger>
+        {isHovered && !anyRecording && (
+          <TooltipContent
+            side="top"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '6px 8px',
+              fontSize: '14px',
+              marginBottom: '6px',
+              borderRadius: '8px',
+            }}
+            className="border-none rounded-md"
+          >
+            Click and start speaking
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </>
+  )
+}
+
+export default Pill

@@ -1,0 +1,849 @@
+import React, { useCallback, useEffect, useState } from 'react'
+import {
+  ChartNoAxesColumn,
+  InfoCircle,
+  Play,
+  Stop,
+  Copy,
+  Check,
+  Download,
+} from '@mynaui/icons-react'
+import { useSettingsStore } from '../../../store/useSettingsStore'
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../ui/tooltip'
+import { useAuthStore } from '@/app/store/useAuthStore'
+import { Interaction } from '@/lib/main/sqlite/models'
+
+import {
+  STREAK_MESSAGES,
+  SPEED_MESSAGES,
+  TOTAL_WORDS_MESSAGES,
+  getStreakLevel,
+  getSpeedLevel,
+  getTotalWordsLevel,
+  getActivityMessage,
+} from './activityMessages'
+import { OrbitMode } from '@/app/generated/orbit_pb'
+import { getKeyDisplay } from '@/app/utils/keyboard'
+import { createStereo48kWavFromMonoPCM } from '@/app/utils/audioUtils'
+import { KeyName } from '@/lib/types/keyboard'
+import { usePlatform } from '@/app/hooks/usePlatform'
+import { ProUpgradeDialog } from '../ProUpgradeDialog'
+import useBillingState from '@/app/hooks/useBillingState'
+import { AudioLines, CircleGauge } from 'lucide-react'
+
+// Interface for interaction statistics
+interface InteractionStats {
+  streakDays: number
+  totalWords: number
+  averageWPM: number
+}
+
+const StatCard = ({
+  title,
+  value,
+  description,
+  icon,
+}: {
+  title: string
+  value: string
+  description: string
+  icon: React.ReactNode
+}) => {
+  return (
+    <div className="flex flex-col p-4 w-1/3 border-2 border-[#3a3a3b] bg-[#2A2B2E] rounded-xl gap-4">
+      <div className="flex flex-row items-center">
+        <div className="flex flex-col gap-1">
+          <div className="text-[#979899]">{title}</div>
+          <div className="font-bold text-[#979899]">{value}</div>
+        </div>
+        <div className="flex flex-col items-end flex-1">{icon}</div>
+      </div>
+      <div className="w-full text-[#6b6b6b]">{description}</div>
+    </div>
+  )
+}
+
+interface HomeContentProps {
+  isStartingTrial?: boolean
+}
+
+export default function HomeContent({
+  isStartingTrial = false,
+}: HomeContentProps) {
+  const { getOrbitModeShortcuts } = useSettingsStore()
+  const keyboardShortcut = getOrbitModeShortcuts(OrbitMode.TRANSCRIBE)[0].keys
+  const { user } = useAuthStore()
+  const firstName = user?.name?.split(' ')[0]
+  const platform = usePlatform()
+  const [interactions, setInteractions] = useState<Interaction[]>([])
+  const [loading, setLoading] = useState(true)
+  const [playingAudio, setPlayingAudio] = useState<string | null>(null)
+  const [audioInstances, setAudioInstances] = useState<
+    Map<string, HTMLAudioElement>
+  >(new Map())
+  const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set())
+  const [openTooltipKey, setOpenTooltipKey] = useState<string | null>(null)
+  const [stats, setStats] = useState<InteractionStats>({
+    streakDays: 0,
+    totalWords: 0,
+    averageWPM: 0,
+  })
+  const [showProDialog, setShowProDialog] = useState(false)
+  const billingState = useBillingState()
+
+  // Persist "has shown trial dialog" flag in electron-store to survive remounts
+  const [hasShownTrialDialog, setHasShownTrialDialogState] = useState(() => {
+    try {
+      const authStore = window.electron?.store?.get('auth') || {}
+      const value = authStore?.hasShownTrialDialog === true
+      return value
+    } catch {
+      return false
+    }
+  })
+
+  const setHasShownTrialDialog = useCallback((value: boolean) => {
+    try {
+      setHasShownTrialDialogState(value)
+      window.api.send('electron-store-set', 'auth.hasShownTrialDialog', value)
+    } catch {
+      console.warn('Failed to persist hasShownTrialDialog flag')
+    }
+  }, [])
+
+  // Show trial dialog when trial starts
+  useEffect(() => {
+    if (
+      billingState.isTrialActive &&
+      billingState.proStatus === 'free_trial' &&
+      !hasShownTrialDialog &&
+      !billingState.isLoading
+    ) {
+      setShowProDialog(true)
+      setHasShownTrialDialog(true)
+    }
+  }, [
+    billingState.isTrialActive,
+    billingState.proStatus,
+    billingState.isLoading,
+    isStartingTrial,
+    hasShownTrialDialog,
+    setHasShownTrialDialog,
+  ])
+
+  // Listen for trial start event to refresh billing state
+  useEffect(() => {
+    const offTrialStarted = window.api.on('trial-started', async () => {
+      await billingState.refresh()
+    })
+
+    const offBillingSuccess = window.api.on(
+      'billing-session-completed',
+      async () => {
+        await billingState.refresh()
+      },
+    )
+
+    return () => {
+      offTrialStarted?.()
+      offBillingSuccess?.()
+    }
+  }, [billingState])
+
+  // Reset dialog flag when trial is no longer active or user becomes pro
+  // Only reset if we're certain the trial has ended (not just during loading/refreshing)
+  useEffect(() => {
+    if (billingState.isLoading) {
+      // Don't reset during loading to avoid race conditions
+      return
+    }
+
+    const shouldReset =
+      billingState.proStatus === 'active_pro' ||
+      (billingState.proStatus === 'none' && !billingState.isTrialActive)
+
+    if (shouldReset && hasShownTrialDialog) {
+      setHasShownTrialDialog(false)
+    }
+  }, [
+    billingState.proStatus,
+    billingState.isTrialActive,
+    billingState.isLoading,
+    hasShownTrialDialog,
+    setHasShownTrialDialog,
+  ])
+
+  // Calculate statistics from interactions
+  const calculateStats = useCallback(
+    (interactions: Interaction[]): InteractionStats => {
+      if (interactions.length === 0) {
+        return { streakDays: 0, totalWords: 0, averageWPM: 0 }
+      }
+
+      // Calculate streak (consecutive days with interactions)
+      const streakDays = calculateStreak(interactions)
+
+      // Calculate total words from transcripts
+      const totalWords = calculateTotalWords(interactions)
+
+      // Calculate average WPM (estimate based on average speaking rate)
+      const averageWPM = calculateAverageWPM(interactions)
+
+      return { streakDays, totalWords, averageWPM }
+    },
+    [],
+  )
+
+  const calculateStreak = (interactions: Interaction[]): number => {
+    if (interactions.length === 0) return 0
+
+    // Group interactions by date
+    const dateGroups = new Map<string, Interaction[]>()
+    interactions.forEach(interaction => {
+      const date = new Date(interaction.created_at).toDateString()
+      if (!dateGroups.has(date)) {
+        dateGroups.set(date, [])
+      }
+      dateGroups.get(date)!.push(interaction)
+    })
+
+    // Sort dates in descending order (most recent first)
+    const sortedDates = Array.from(dateGroups.keys()).sort(
+      (a, b) => new Date(b).getTime() - new Date(a).getTime(),
+    )
+
+    let streak = 0
+    const today = new Date()
+
+    for (let i = 0; i < sortedDates.length; i++) {
+      const currentDate = new Date(sortedDates[i])
+      const expectedDate = new Date(today)
+      expectedDate.setDate(today.getDate() - i)
+
+      // Check if current date matches expected date (allowing for today or previous consecutive days)
+      if (currentDate.toDateString() === expectedDate.toDateString()) {
+        streak++
+      } else {
+        break
+      }
+    }
+
+    return streak
+  }
+
+  const calculateTotalWords = (interactions: Interaction[]): number => {
+    return interactions.reduce((total, interaction) => {
+      const transcript = interaction.asr_output?.transcript?.trim()
+      if (transcript) {
+        // Count words by splitting on whitespace and filtering out empty strings
+        const words = transcript.split(/\s+/).filter(word => word.length > 0)
+        return total + words.length
+      }
+      return total
+    }, 0)
+  }
+
+  const calculateAverageWPM = (interactions: Interaction[]): number => {
+    const validInteractions = interactions.filter(
+      interaction =>
+        interaction.asr_output?.transcript?.trim() && interaction.duration_ms,
+    )
+
+    if (validInteractions.length === 0) return 0
+
+    let totalWords = 0
+    let totalDurationMs = 0
+
+    validInteractions.forEach(interaction => {
+      const transcript = interaction.asr_output?.transcript?.trim()
+      if (transcript && interaction.duration_ms) {
+        // Count words by splitting on whitespace and filtering out empty strings
+        const words = transcript.split(/\s+/).filter(word => word.length > 0)
+        totalWords += words.length
+        totalDurationMs += interaction.duration_ms
+      }
+    })
+
+    if (totalDurationMs === 0) return 0
+
+    // Calculate WPM: (total words / total duration in minutes)
+    const totalMinutes = totalDurationMs / (1000 * 60)
+    const wpm = totalWords / totalMinutes
+
+    // Round to nearest integer and ensure it's reasonable
+    return Math.round(Math.max(1, wpm))
+  }
+
+  const formatStreakText = (days: number): string => {
+    if (days === 0) return '0 days'
+    if (days === 1) return '1 day'
+    if (days < 7) return `${days} days`
+    if (days < 14) return '1 week'
+    if (days < 30) return `${Math.floor(days / 7)} weeks`
+    if (days < 60) return '1 month'
+    return `${Math.floor(days / 30)} months`
+  }
+
+  const loadInteractions = useCallback(async () => {
+    try {
+      const allInteractions = await window.api.interactions.getAll()
+
+      // Sort by creation date (newest first) - remove the slice(0, 10) to show all interactions
+      const sortedInteractions = allInteractions.sort(
+        (a: Interaction, b: Interaction) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+      setInteractions(sortedInteractions)
+
+      // Calculate and set statistics
+      const calculatedStats = calculateStats(sortedInteractions)
+      setStats(calculatedStats)
+    } catch (error) {
+      console.error('Failed to load interactions:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [calculateStats])
+
+  useEffect(() => {
+    loadInteractions()
+
+    // Listen for new interactions
+    const handleInteractionCreated = () => {
+      loadInteractions()
+    }
+
+    const unsubscribe = window.api.on(
+      'interaction-created',
+      handleInteractionCreated,
+    )
+
+    // Cleanup listener on unmount
+    return unsubscribe
+  }, [loadInteractions])
+
+  // Cleanup audio instances on unmount
+  useEffect(() => {
+    return () => {
+      audioInstances.forEach(audio => {
+        try {
+          audio.pause()
+          audio.currentTime = 0
+          // Best-effort release of object URL if used
+          if (audio.src?.startsWith('blob:')) {
+            URL.revokeObjectURL(audio.src)
+          }
+        } catch {
+          /* ignore */
+        }
+      })
+    }
+  }, [audioInstances])
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const today = new Date()
+    const yesterday = new Date()
+    yesterday.setDate(today.getDate() - 1)
+
+    const isToday = date.toDateString() === today.toDateString()
+    const isYesterday = date.toDateString() === yesterday.toDateString()
+
+    if (isToday) return 'TODAY'
+    if (isYesterday) return 'YESTERDAY'
+
+    return date
+      .toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric',
+      })
+      .toUpperCase()
+  }
+
+  const groupInteractionsByDate = (interactions: Interaction[]) => {
+    const groups: { [key: string]: Interaction[] } = {}
+
+    interactions.forEach(interaction => {
+      const dateKey = formatDate(interaction.created_at)
+      if (!groups[dateKey]) {
+        groups[dateKey] = []
+      }
+      groups[dateKey].push(interaction)
+    })
+
+    return groups
+  }
+
+  const getDisplayText = (interaction: Interaction) => {
+    // Check for errors first
+    if (interaction.asr_output?.error) {
+      // Prefer precise error code mapping when available
+      const code = interaction.asr_output?.errorCode
+      if (code === 'CLIENT_TRANSCRIPTION_QUALITY_ERROR') {
+        return {
+          text: 'Audio quality too low',
+          isError: true,
+          tooltip:
+            'Audio quality was too low to generate a reliable transcript',
+        }
+      }
+      if (
+        interaction.asr_output.error.includes('No speech detected in audio.') ||
+        interaction.asr_output.error.includes('Unable to transcribe audio.')
+      ) {
+        return {
+          text: 'Audio is silent',
+          isError: true,
+          tooltip: "Orbit didn't detect any words so the transcript is empty",
+        }
+      }
+      return {
+        text: 'Transcription failed',
+        isError: true,
+        tooltip: interaction.asr_output.error,
+      }
+    }
+
+    // Check for empty transcript
+    const transcript = interaction.asr_output?.transcript?.trim()
+
+    if (!transcript) {
+      return {
+        text: 'Audio is silent.',
+        isError: true,
+        tooltip: "Orbit didn't detect any words so the transcript is empty",
+      }
+    }
+
+    // Return the actual transcript
+    return {
+      text: transcript,
+      isError: false,
+      tooltip: null,
+    }
+  }
+
+  const handleAudioPlayStop = async (interaction: Interaction) => {
+    try {
+      // If this interaction is currently playing, stop it
+      if (playingAudio === interaction.id) {
+        const current = audioInstances.get(interaction.id)
+        if (current) {
+          current.pause()
+          current.currentTime = 0
+          if (current.src?.startsWith('blob:')) {
+            URL.revokeObjectURL(current.src)
+          }
+        }
+        setPlayingAudio(null)
+        return
+      }
+
+      // Stop any other playing audio
+      if (playingAudio) {
+        const other = audioInstances.get(playingAudio)
+        if (other) {
+          other.pause()
+          other.currentTime = 0
+          if (other.src?.startsWith('blob:')) {
+            URL.revokeObjectURL(other.src)
+          }
+        }
+      }
+
+      if (!interaction.raw_audio) {
+        console.warn('No audio data available for this interaction')
+        return
+      }
+
+      // Set playing state immediately for responsive UI
+      setPlayingAudio(interaction.id)
+
+      // Reuse existing audio instance if available
+      let audio = audioInstances.get(interaction.id)
+
+      if (!audio) {
+        const pcmData = new Uint8Array(interaction.raw_audio)
+        try {
+          // Convert raw PCM (mono, typically 16 kHz) to 48 kHz stereo WAV for smoother playback
+          const wavBuffer = createStereo48kWavFromMonoPCM(
+            pcmData,
+            interaction.sample_rate || 16000,
+            48000,
+          )
+          const audioBlob = new Blob([wavBuffer], { type: 'audio/wav' })
+          const audioUrl = URL.createObjectURL(audioBlob)
+
+          audio = new Audio(audioUrl)
+          audio.onended = () => {
+            setPlayingAudio(null)
+            if (audio && audio.src?.startsWith('blob:')) {
+              URL.revokeObjectURL(audio.src)
+            }
+          }
+          audio.onerror = err => {
+            console.error('Audio playback error:', err)
+            setPlayingAudio(null)
+            if (audio && audio.src?.startsWith('blob:')) {
+              URL.revokeObjectURL(audio.src)
+            }
+          }
+
+          setAudioInstances(prev => new Map(prev).set(interaction.id, audio!))
+        } catch (error) {
+          console.error('Failed to create audio instance:', error)
+          setPlayingAudio(null)
+          return
+        }
+      }
+
+      try {
+        await audio.play()
+      } catch (playError) {
+        console.error('Failed to start audio playback:', playError)
+        setPlayingAudio(null)
+      }
+    } catch (error) {
+      console.error('Failed to play/stop audio:', error)
+      setPlayingAudio(null)
+    }
+  }
+
+  const groupedInteractions = groupInteractionsByDate(interactions)
+
+  const copyToClipboard = async (text: string, interactionId: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedItems(prev => new Set(prev).add(interactionId))
+      setOpenTooltipKey(`copy:${interactionId}`) // Keep tooltip open
+
+      // Reset the copied state after 2 seconds
+      setTimeout(() => {
+        setCopiedItems(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(interactionId)
+          return newSet
+        })
+        // Close tooltip if it's still open for this item (do not override if user hovered elsewhere)
+        setOpenTooltipKey(prev =>
+          prev === `copy:${interactionId}` ? null : prev,
+        )
+      }, 2000)
+    } catch (error) {
+      console.error('Failed to copy text:', error)
+    }
+  }
+
+  const handleAudioDownload = async (interaction: Interaction) => {
+    try {
+      if (!interaction.raw_audio) {
+        console.warn('No audio data available for download')
+        return
+      }
+
+      const pcmData = new Uint8Array(interaction.raw_audio)
+      // Convert raw PCM to WAV format
+      const wavBuffer = createStereo48kWavFromMonoPCM(
+        pcmData,
+        interaction.sample_rate || 16000,
+        48000,
+      )
+      const audioBlob = new Blob([wavBuffer], { type: 'audio/wav' })
+      const audioUrl = URL.createObjectURL(audioBlob)
+
+      // Format filename with timestamp (YYYYMMDD_HHMMSS)
+      const date = new Date(interaction.created_at)
+      const timestamp = date
+        .toISOString()
+        .replace(/[-:]/g, '')
+        .replace('T', '_')
+        .slice(0, 15)
+      const filename = `orbit-recording-${timestamp}.wav`
+
+      // Create temporary link and trigger download
+      const link = document.createElement('a')
+      link.href = audioUrl
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Clean up the blob URL
+      URL.revokeObjectURL(audioUrl)
+    } catch (error) {
+      console.error('Failed to download audio:', error)
+    }
+  }
+
+  return (
+    <div className="w-full h-full flex flex-col">
+      {/* Fixed Header Content */}
+      <div className="flex-shrink-0 px-24">
+        <div className="flex items-center gap-2 mb-5">
+          <h1 className="text-base font-medium text-[#979899]">
+            Welcome back{firstName ? `, ${firstName}!` : '!'}
+          </h1>
+        </div>
+        <div className="flex gap-4 w-full mb-6">
+          <div className="flex w-full items-center text-sm text-[#979899] gap-2">
+            <StatCard
+              title="Weekly Streak"
+              value={formatStreakText(stats.streakDays)}
+              description={getActivityMessage(
+                STREAK_MESSAGES,
+                getStreakLevel(stats.streakDays),
+              )}
+              icon={
+                <div className="p-2rounded-md">
+                  <ChartNoAxesColumn />
+                </div>
+              }
+            />
+            <StatCard
+              title="Average Speed"
+              value={`${stats.averageWPM} words / minute`}
+              description={getActivityMessage(
+                SPEED_MESSAGES,
+                getSpeedLevel(stats.averageWPM),
+              )}
+              icon={
+                <div className="p-2  rounded-md">
+                  <CircleGauge />
+                </div>
+              }
+            />
+            <StatCard
+              title="Total Words"
+              value={`${stats.totalWords} ${stats.totalWords === 1 ? 'word' : 'words'}`}
+              description={getActivityMessage(
+                TOTAL_WORDS_MESSAGES,
+                getTotalWordsLevel(stats.totalWords),
+              )}
+              icon={
+                <div className="p-2 rounded-md">
+                  <AudioLines />
+                </div>
+              }
+            />
+          </div>
+        </div>
+
+        {/* Dictation Info Box */}
+        <div className="bg-[#2A2B2E] border border-[#3a3a3b] rounded-xl p-6 flex items-center justify-between mb-10">
+          <div>
+            <div className="text-base font-medium mb-1 text-[#979899]">
+              Voice dictation in any app
+            </div>
+            <div className="text-sm text-[#6b6b6b]">
+              <span key="hold-down">Hold down the trigger key </span>
+              {keyboardShortcut.map((key, index) => (
+                <React.Fragment key={index}>
+                  <span className="bg-[#1C1E21] px-1 py-0.5 rounded text-xs font-mono shadow-sm text-[#979899]">
+                    {getKeyDisplay(key as KeyName, platform, {
+                      showDirectionalText: false,
+                      format: 'label',
+                    })}
+                  </span>
+                  <span>{index < keyboardShortcut.length - 1 && ' + '}</span>
+                </React.Fragment>
+              ))}
+              <span key="and"> and speak into any textbox</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activity Header */}
+        <div className="text-sm text-[#979899] mb-6">Recent activity</div>
+      </div>
+
+      {/* Scrollable Recent Activity Section */}
+      <div className="flex-1 px-24 overflow-y-auto scrollbar-hide">
+        {loading ? (
+          <div className="bg-[#2A2B2E] border border-[#3a3a3b] rounded-lg p-8 text-center text-[#979899]">
+            Loading recent activity...
+          </div>
+        ) : interactions.length === 0 ? (
+          <div className="bg-[#2A2B2E] border border-[#3a3a3b] rounded-lg p-8 text-center text-[#979899]">
+            <p className="text-sm">No interactions yet</p>
+            <p className="text-xs mt-1">
+              Try using voice dictation by pressing{' '}
+              {keyboardShortcut.join(' + ')}
+            </p>
+          </div>
+        ) : (
+          Object.entries(groupedInteractions).map(
+            ([dateLabel, dateInteractions]) => (
+              <div key={dateLabel} className="mb-6">
+                <div className="text-xs text-[#979899] mb-4">{dateLabel}</div>
+                <div className="bg-[#2A2B2E] rounded-lg border border-[#3a3a3b] divide-y divide-[#3a3a3b]">
+                  {dateInteractions.map(interaction => {
+                    const displayInfo = getDisplayText(interaction)
+
+                    return (
+                      <div
+                        key={interaction.id}
+                        className="flex items-center justify-between px-4 py-4 gap-10 hover:bg-[#1C1E21] transition-colors duration-200 group"
+                      >
+                        <div className="flex items-center gap-10">
+                          <div className="text-[#6b6b6b] min-w-[60px]">
+                            {formatTime(interaction.created_at)}
+                          </div>
+                          <div
+                            className={`${displayInfo.isError ? 'text-[#6b6b6b]' : 'text-[#979899]'} flex items-center gap-1`}
+                          >
+                            {displayInfo.text}
+                            {displayInfo.tooltip && (
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <InfoCircle className="w-4 h-4 text-[#6b6b6b]" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  {displayInfo.tooltip}
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Copy, Download, and Play buttons - only show on hover or when playing */}
+                        <div
+                          className={`flex items-center gap-2 ${playingAudio === interaction.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`}
+                        >
+                          {/* Copy button */}
+                          {!displayInfo.isError && (
+                            <Tooltip
+                              open={openTooltipKey === `copy:${interaction.id}`}
+                              onOpenChange={open => {
+                                if (open) {
+                                  // Opening: exclusively show this tooltip
+                                  setOpenTooltipKey(`copy:${interaction.id}`)
+                                } else {
+                                  // Closing: if in copied state, keep it open until timer clears,
+                                  // otherwise close normally
+                                  if (!copiedItems.has(interaction.id)) {
+                                    setOpenTooltipKey(prev =>
+                                      prev === `copy:${interaction.id}`
+                                        ? null
+                                        : prev,
+                                    )
+                                  }
+                                }
+                              }}
+                            >
+                              <TooltipTrigger asChild>
+                                <button
+                                  className={`p-1.5 hover:bg-[#3a3a3b] rounded transition-colors cursor-pointer ${
+                                    copiedItems.has(interaction.id)
+                                      ? 'text-green-400'
+                                      : 'text-[#979899]'
+                                  }`}
+                                  onClick={() =>
+                                    copyToClipboard(
+                                      displayInfo.text,
+                                      interaction.id,
+                                    )
+                                  }
+                                >
+                                  {copiedItems.has(interaction.id) ? (
+                                    <Check className="w-4 h-4" />
+                                  ) : (
+                                    <Copy className="w-4 h-4" />
+                                  )}
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="top" sideOffset={5}>
+                                {copiedItems.has(interaction.id)
+                                  ? 'Copied 🎉'
+                                  : 'Copy'}
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+
+                          {/* Download button */}
+                          {interaction.raw_audio && (
+                            <Tooltip
+                              open={
+                                openTooltipKey === `download:${interaction.id}`
+                              }
+                              onOpenChange={open => {
+                                setOpenTooltipKey(
+                                  open ? `download:${interaction.id}` : null,
+                                )
+                              }}
+                            >
+                              <TooltipTrigger asChild>
+                                <button
+                                  className="p-1.5 hover:bg-[#3a3a3b] rounded transition-colors cursor-pointer text-[#979899]"
+                                  onClick={() =>
+                                    handleAudioDownload(interaction)
+                                  }
+                                >
+                                  <Download className="w-4 h-4" />
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="top" sideOffset={5}>
+                                Download audio
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+
+                          {/* Play/Stop button with tooltip */}
+                          <Tooltip
+                            open={openTooltipKey === `play:${interaction.id}`}
+                            onOpenChange={open => {
+                              setOpenTooltipKey(
+                                open ? `play:${interaction.id}` : null,
+                              )
+                            }}
+                          >
+                            <TooltipTrigger asChild>
+                              <button
+                                className={`p-1.5 hover:bg-[#3a3a3b] rounded transition-colors cursor-pointer ${
+                                  playingAudio === interaction.id
+                                    ? 'bg-blue-900/20 text-blue-400'
+                                    : 'text-[#979899]'
+                                }`}
+                                onClick={() => handleAudioPlayStop(interaction)}
+                                disabled={!interaction.raw_audio}
+                              >
+                                {playingAudio === interaction.id ? (
+                                  <Stop className="w-4 h-4" />
+                                ) : (
+                                  <Play className="w-4 h-4" />
+                                )}
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" sideOffset={5}>
+                              {!interaction.raw_audio
+                                ? 'No audio available'
+                                : playingAudio === interaction.id
+                                  ? 'Stop'
+                                  : 'Play'}
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ),
+          )
+        )}
+      </div>
+
+      {/* Pro Upgrade Dialog */}
+      <ProUpgradeDialog open={showProDialog} onOpenChange={setShowProDialog} />
+    </div>
+  )
+}
