@@ -81,7 +81,7 @@ export function createAppWindow(): BrowserWindow {
           ...details.responseHeaders,
           'Content-Security-Policy': [
             "default-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-              "connect-src 'self' http://localhost:* https://sage.sajdakabir.com https://backend.composio.dev https://*.posthog.com https://app.posthog.com https://eu.posthog.com https://us.i.posthog.com; " +
+              "connect-src 'self' http://localhost:* " + (process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000') + " https://backend.composio.dev https://*.posthog.com https://app.posthog.com https://eu.posthog.com https://us.i.posthog.com; " +
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
               "style-src 'self' 'unsafe-inline'; " +
               "img-src 'self' data: res: https:; " +

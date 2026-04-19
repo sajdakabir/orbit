@@ -5,7 +5,7 @@ import { STORE_KEYS } from '../constants/store-keys'
  * In-memory session token cache.
  *
  * Electron apps (dev on http://localhost:5173, packaged on app://) cannot send
- * cross-origin cookies to https://sage.sajdakabir.com. Better Auth normally
+ * cross-origin cookies to the production API server. Better Auth normally
  * relies on cookies, so we manually forward the session token via the
  * Authorization header instead.
  *

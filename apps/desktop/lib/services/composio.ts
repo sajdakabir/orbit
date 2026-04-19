@@ -155,7 +155,7 @@ export class ComposioClient {
         body: JSON.stringify({
           auth_config_id: authConfigId,
           user_id: userId || 'default',
-          callback_url: callbackUrl || 'https://sage.sajdakabir.com',
+          callback_url: callbackUrl || process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000',
         }),
       },
     )
