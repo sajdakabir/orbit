@@ -1,0 +1,76 @@
+name: Infra CDK
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+        description: 'The environment to build for'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+        description: 'The environment to build for'
+
+permissions:
+  contents: read
+  id-token: write # for OIDC
+
+jobs:
+  cdk-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout infra
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js & CDK
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install infra dependencies
+        working-directory: server/infra
+        run: npm install
+
+      - name: Verify CDK version
+        working-directory: server/infra
+        run: npx cdk --version
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::287641434880:role/OrbitGitHubCiCdRole
+          aws-region: us-west-2
+
+      - name: Synthesize CDK template
+        working-directory: server/infra
+        run: npx cdk synth
+
+      - name: Show CDK diff
+        working-directory: server/infra
+        run: npx cdk diff
+
+      - name: Refresh AWS credentials before deploy
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::287641434880:role/OrbitGitHubCiCdRole
+          aws-region: us-west-2
+
+      - name: Deploy to AWS
+        working-directory: server/infra
+        env:
+          AUTH0_DOMAIN: '${{ secrets.VITE_AUTH0_DOMAIN }}'
+          AUTH0_AUDIENCE: '${{ secrets.VITE_AUTH0_AUDIENCE }}'
+          AUTH0_CLIENT_ID: '${{ secrets.VITE_AUTH0_CLIENT_ID }}'
+          AUTH0_MGMT_CLIENT_ID: '${{ secrets.AUTH0_MGMT_CLIENT_ID }}'
+          AUTH0_MGMT_CLIENT_SECRET: '${{ secrets.AUTH0_MGMT_CLIENT_SECRET }}'
+          STRIPE_SECRET_KEY: '${{ secrets.STRIPE_SECRET_KEY }}'
+          STRIPE_WEBHOOK_SECRET: '${{ secrets.STRIPE_WEBHOOK_SECRET }}'
+          STRIPE_PRICE_ID: '${{ secrets.STRIPE_PRICE_ID }}'
+          APP_PROTOCOL: '${{ vars.APP_PROTOCOL }}'
+          STRIPE_PUBLIC_BASE_URL: '${{ vars.STRIPE_PUBLIC_BASE_URL }}'
+        run: npx cdk deploy "Orbit-${{ vars.AWS_STAGE }}/*" --require-approval never

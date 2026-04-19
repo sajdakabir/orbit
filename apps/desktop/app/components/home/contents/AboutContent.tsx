@@ -6,7 +6,7 @@ export default function AboutContent() {
   const { setCurrentPage } = useMainStore()
 
   const handleCreatorGitHubClick = () => {
-    window.open('https://github.com/sajdakabir/orbit', '_blank')
+    window.open('https://github.com/sajdakabir', '_blank')
   }
 
   return (
@@ -54,7 +54,7 @@ export default function AboutContent() {
               onClick={handleCreatorGitHubClick}
               className="text-xs text-[#979899] mt-1 hover:text-white transition-colors cursor-pointer"
             >
-              github.com/sajdakabir/orbit
+              github.com/sajdakabir
             </button>
           </div>
         </div>

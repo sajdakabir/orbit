@@ -36,7 +36,7 @@ module.exports = {
   publish: {
     provider: 'github',
     owner: 'sajdakabir',
-    repo: 'orbit',
+    repo: 'jan-main',
   },
   directories: {
     buildResources: 'resources',

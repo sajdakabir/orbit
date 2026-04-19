@@ -1,0 +1,67 @@
+# .github/workflows/app-deploy.yml
+name: Run Migrations and Deploy App
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+        description: 'The environment to build for'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+        description: 'The environment to build for'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  migrate-and-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::287641434880:role/OrbitGitHubCiCdRole
+          aws-region: us-west-2
+
+      - name: Run migrations
+        run: |
+          aws lambda invoke \
+            --function-name ${{ vars.AWS_STAGE }}-OrbitDb-migration \
+            --payload '{}' \
+            out.json
+
+          cat out.json
+
+          if jq -e '.FunctionError' out.json > /dev/null; then
+            echo "❌ Lambda execution failed:"
+            echo "Message: $(jq -r '.errorMessage' out.json)"
+            exit 1
+          fi
+
+          if jq -e '.errorType' out.json > /dev/null; then
+            echo "❌ Migration failed:"
+            echo "Error: $(jq -r '.errorType' out.json)"
+            echo "Message: $(jq -r '.errorMessage' out.json)"
+            exit 1
+          fi
+
+      - name: Force new ECS deployment
+        run: |
+          aws ecs update-service \
+            --cluster ${{ vars.AWS_STAGE }}-orbit-cluster \
+            --service ${{ vars.AWS_STAGE }}-orbit-service \
+            --force-new-deployment

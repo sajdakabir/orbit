@@ -32,13 +32,13 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           # Check if issue exists
-          ISSUE_EXISTS=$(gh api repos/${{ github.repository }}/issues/$ISSUE_NUMBER --jq '.number' 2>/dev/null || echo "")
+          ISSUE_EXISTS=$(gh api repos/sajdakabir/orbit/issues/$ISSUE_NUMBER --jq '.number' 2>/dev/null || echo "")
 
           if [ -n "$ISSUE_EXISTS" ]; then
             echo "Linking PR #$PR_NUMBER to issue #$ISSUE_NUMBER"
             
             # Add comment to PR mentioning the issue (creates automatic link)
-            gh api repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
+            gh api repos/sajdakabir/orbit/issues/$PR_NUMBER/comments \
               --method POST \
               --field body="Resolves #$ISSUE_NUMBER"
             

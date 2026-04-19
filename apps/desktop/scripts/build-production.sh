@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build script for production with proper environment variables
-# This ensures the built app uses the production API URL instead of localhost
+# This ensures the built app uses https://sage.sajdakabir.com instead of localhost
 
 set -e
 
@@ -9,7 +9,7 @@ echo "🚀 Building Orbit for production..."
 echo ""
 
 # Export production environment variables
-export VITE_GRPC_BASE_URL="${VITE_GRPC_BASE_URL:-http://localhost:3000}"
+export VITE_GRPC_BASE_URL="https://sage.sajdakabir.com"
 export ORBIT_ENV="prod"
 export VITE_ORBIT_VERSION="${VITE_ORBIT_VERSION:-0.2.3}"
 

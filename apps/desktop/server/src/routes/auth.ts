@@ -93,7 +93,7 @@ function setCorsHeaders(request: FastifyRequest, reply: FastifyReply) {
       requestOrigin.startsWith('orbit://') ||
       requestOrigin === process.env.CLIENT_URL ||
       requestOrigin === process.env.BETTER_AUTH_URL ||
-      requestOrigin === (process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000')
+      requestOrigin === 'https://sage.sajdakabir.com'
 
     if (allowed) {
       reply.header('Access-Control-Allow-Origin', requestOrigin)

@@ -52,6 +52,6 @@ export const auth = betterAuth({
     'https://localhost',
     'http://localhost:3000',
     'http://localhost:5173',
-    process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000', // Production domain via env var
+    'https://sage.sajdakabir.com', // Production domain explicitly
   ],
 })

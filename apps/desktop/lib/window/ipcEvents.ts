@@ -54,7 +54,7 @@ const handleIPC = (channel: string, handler: (...args: any[]) => any) => {
 // Helper function to get the correct API base URL in the main process
 const getApiBaseUrl = (): string => {
   if (ORBIT_ENV === 'prod') {
-    return process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000'
+    return 'https://sage.sajdakabir.com'
   }
   return 'http://localhost:3000'
 }
@@ -1250,7 +1250,7 @@ handleIPC('composio:initiate-connection', async (_e, toolkitSlug: string) => {
     // Callback goes to our hosted page which shows success + "Open App" button
     const callbackUrl =
       process.env.COMPOSIO_CALLBACK_URL ||
-      (process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000') + '/composio/callback'
+      'https://sage.sajdakabir.com/composio/callback'
     const linkRes = await fetch(`${COMPOSIO_API_V3}/connected_accounts/link`, {
       method: 'POST',
       headers: composioHeaders(apiKey),
@@ -1699,7 +1699,7 @@ ipcMain.on(IPC_EVENTS.ACTION_CONNECT_TOOL, async (_event, toolkitSlug: string) =
     }
 
     const userId = getCurrentUserId() || 'default'
-    const callbackUrl = process.env.COMPOSIO_CALLBACK_URL || (process.env.VITE_GRPC_BASE_URL || 'http://localhost:3000') + '/composio/callback'
+    const callbackUrl = process.env.COMPOSIO_CALLBACK_URL || 'https://sage.sajdakabir.com/composio/callback'
 
     log.info('[Action] Connecting tool:', toolkitSlug, '| userId:', userId, '| callback:', callbackUrl)
 
