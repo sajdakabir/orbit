@@ -1,6 +1,7 @@
 import { auth } from '../auth/auth.js'
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import pool from '../db.js'
+import { renderDesktopCallbackSuccess, renderDesktopCallbackError } from '../utils/renderCallback.js'
 
 // In-memory store for pending OAuth token exchanges (nonce → session token)
 // Entries auto-expire after 5 minutes
@@ -177,9 +178,7 @@ export async function registerAuthRoutes(fastify: FastifyInstance) {
         return reply
           .code(500)
           .type('text/html')
-          .send(
-            '<html><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>Something went wrong</h2><p>Could not start GitHub login. Please try again from the Orbit app.</p></body></html>',
-          )
+          .send(renderDesktopCallbackError('Could not start GitHub login. Please try again from the Orbit app.'))
       }
     },
   )
@@ -224,54 +223,20 @@ export async function registerAuthRoutes(fastify: FastifyInstance) {
           return reply
             .code(200)
             .type('text/html')
-            .send(
-              `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Login Successful - Orbit</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fafafa; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-    .card { text-align: center; padding: 48px; max-width: 400px; }
-    .check { width: 64px; height: 64px; margin: 0 auto 24px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; }
-    .check svg { width: 32px; height: 32px; }
-    h2 { font-size: 24px; font-weight: 600; margin: 0 0 12px; }
-    p { color: #a1a1aa; font-size: 15px; margin: 0 0 24px; line-height: 1.5; }
-    .link { color: #3b82f6; text-decoration: underline; cursor: pointer; font-size: 14px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="check">
-      <svg fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-    </div>
-    <h2>Login successful!</h2>
-    <p>You're all set. Redirecting you back to Orbit...</p>
-    <a class="link" href="${redirectUrl}">Click here if you're not redirected</a>
-  </div>
-  <script>
-    setTimeout(function() { window.location.href = ${JSON.stringify(redirectUrl)}; }, 1000);
-  </script>
-</body>
-</html>`,
-            )
+            .send(renderDesktopCallbackSuccess(redirectUrl))
         }
 
         // No session token found - show error page
         return reply
           .code(400)
           .type('text/html')
-          .send(
-            '<html><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>Authentication failed</h2><p>No session token found. Please try again from the Orbit app.</p></body></html>',
-          )
+          .send(renderDesktopCallbackError('No session token found. Please try again from the Orbit app.'))
       } catch (error: any) {
         console.error('[Auth] Desktop callback error:', error)
         return reply
           .code(500)
           .type('text/html')
-          .send(
-            '<html><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>Something went wrong</h2><p>Please try again from the Orbit app.</p></body></html>',
-          )
+          .send(renderDesktopCallbackError('Something went wrong. Please try again from the Orbit app.'))
       }
     },
   )

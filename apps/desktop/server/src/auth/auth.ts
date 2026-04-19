@@ -1,5 +1,6 @@
 import { betterAuth } from 'better-auth'
 import { Pool } from 'pg'
+import { createContact, sendEvent } from '../services/loops'
 
 // Check if DATABASE_URL is configured
 if (!process.env.DATABASE_URL) {
@@ -40,6 +41,32 @@ export const auth = betterAuth({
     cookieCache: {
       enabled: true,
       maxAge: 5 * 60, // Cache duration in seconds
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          const nameParts = (user.name || '').split(' ')
+          const firstName = nameParts[0] || ''
+          const lastName = nameParts.slice(1).join(' ') || ''
+
+          // Add to Loops contact list
+          await createContact({
+            email: user.email,
+            firstName,
+            lastName,
+            userId: user.id,
+            source: 'app-signup',
+          })
+
+          // Send welcome event (triggers welcome email in Loops)
+          await sendEvent(user.email, 'user_signed_up', {
+            firstName,
+            signupDate: new Date().toISOString(),
+          })
+        },
+      },
     },
   },
   trustedOrigins: [
